@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Bokksu</title>
+    <style>
+      body {
+        margin: 0;
+      }
+      canvas {
+        display: block;
+      }
+      .menu-left {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 320px;
+        background-color: white;
+        overflow: hidden;
+      }
+
+      .tabla-instrucciones {
+        font-size: 0.75rem;
+        font-weight: 500;
+        line-height: 1.3;
+      }
+
+      .tabla-subtitulo {
+        color: grey;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 0.6rem;
+        font-weight: 500;
+        line-height: 1.2;
+      }
+
+      table img {
+        width: 32px;
+        height: 32px;
+      }
+
+      .table td,
+      .table th {
+        padding: 0.42rem !important;
+      }
+
+      h1 {
+        font-size: 1.2rem !important;
+      }
+
+      .fill {
+        min-height: 100%;
+        height: 100%;
+      }
+
+      .info {
+        position: absolute;
+        bottom: 10px;
+        left: 330px;
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="menu-left p-4">
+      <div class="d-flex flex-column justify-content-between fill">
+        <div class="">
+          <h1>Bokksu</h1>
+          <hr class="pb-4" />
+
+          <form>
+            <div class="form-group">
+              <label for="exampleFormControlSelect1"
+                >Seleccioná tu comisión</label
+              >
+              <select class="form-control" id="exampleFormControlSelect1">
+                <option>1 | Carla y Meli</option>
+                <option>2 | Lu y Kari</option>
+                <option>3 | Axel y Juanma</option>
+                <option>4 | Sil, Jud y Mili</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">Tema</label>
+              <select class="form-control" id="exampleFormControlSelect1">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="exampleFormControlInput1">Datos</label>
+              <input
+                type="email"
+                class="form-control"
+                id="exampleFormControlInput1"
+                placeholder="Nombre"
+              />
+              <input
+                type="email"
+                class="form-control mt-2"
+                id="exampleFormControlInput1"
+                placeholder="Apellido"
+              />
+            </div>
+          </form>
+
+          <a href="#">Descargar plantilla (JPG)</a>
+
+          <div class="form-group">
+            <label for="exampleFormControlFile1">Subir imagen</label>
+            <input type="file" class="form-control-file" id="picture" />
+          </div>
+
+          <img src="" id="uploadedImg" style="width: 300px;" />
+
+          <button type="submit" class="btn btn-primary btn-block">
+            Guardar
+          </button>
+        </div>
+
+        <div>
+          <table class="table table-borderless text-center mt-5">
+            <thead>
+              <tr>
+                <th class="tabla-instrucciones" scope="col">
+                  Con click izquierdo
+                </th>
+                <th class="tabla-instrucciones" scope="col">Con la ruedita</th>
+                <th class="tabla-instrucciones" scope="col">
+                  Con click derecho
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <img
+                    src="/img/iconos-rotacion-03.svg"
+                    class=""
+                    alt="Rotación con click izquierdo"
+                  />
+                </td>
+                <td>
+                  <img
+                    src="/img/iconos-zoom-02.svg"
+                    class=""
+                    alt="Zoom con la ruedita"
+                  />
+                </td>
+                <td>
+                  <img
+                    src="/img/iconos-camara-04.svg"
+                    class=""
+                    alt="Cámara con click derecho"
+                  />
+                </td>
+              </tr>
+
+              <tr>
+                <td class="tabla-subtitulo">Rotación</td>
+                <td class="tabla-subtitulo">Zoom</td>
+                <td class="tabla-subtitulo">Cámara</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="info">
+      Melina Ávila Alterach
+    </div>
+
+    <script src="js/three.js"></script>
+    <script src="js/controls/OrbitControls.js"></script>
+    <script>
+      var scene = new THREE.Scene();
+      scene.background = new THREE.Color("rgb(80%, 80%, 80%)");
+
+      var camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+      );
+
+      var renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+
+      var geometry = new THREE.BoxGeometry(1, 2, 1);
+
+      var names = ["px.jpg", "nx.jpg", "py.jpg", "ny.jpg", "pz.jpg", "nz.jpg"];
+      var materials = [];
+      var textures = [];
+
+      for (let i = 0; i < names.length; i++) {
+        var texture = new THREE.TextureLoader().load("img/" + names[i]);
+        texture.anisotropy = 16;
+        var material = new THREE.MeshBasicMaterial({
+          map: texture,
+        });
+
+        materials.push(material);
+        textures.push(texture);
+      }
+
+      var material = new THREE.MeshBasicMaterial({
+        color: 0xffffff,
+        // map: new THREE.TextureLoader().load("img/px.jpg"),
+      });
+      var cube = new THREE.Mesh(geometry, materials);
+
+      scene.add(cube);
+
+      var controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+
+      camera.position.set(0, 0, 2);
+      controls.update();
+      //   camera.position.z = 5;
+
+      function animate() {
+        requestAnimationFrame(animate);
+        // cube.rotation.x += 0.01;
+        // cube.rotation.y += 0.01;
+        controls.update();
+        renderer.render(scene, camera);
+      }
+      animate();
+
+      document.getElementById("picture").onchange = function (evt) {
+        var tgt = evt.target || window.event.srcElement,
+          files = tgt.files;
+
+        var userImage = evt.target.files[0];
+        var userImageURL = URL.createObjectURL(userImage);
+
+        // FileReader support
+        // if (FileReader && files && files.length) {
+        // var fr = new FileReader();
+        // fr.onload = function () {
+        // var image = document.getElementById("uploadedImg");
+        // image.src = fr.result;
+        //  textures[0] = new THREE.Texture(image);
+        //textures[0].needsUpdate = true;
+        materials[0].map = new THREE.TextureLoader()
+          .setCrossOrigin("")
+          .load(userImageURL);
+        // materials[0].needsUpdate = true;
+        // };
+        // fr.readAsDataURL(files[0]);
+        // }
+
+        // Not supported
+        // else {
+        // fallback -- perhaps submit the input to an iframe and temporarily store
+        // them on the server until the user's session ends.
+        // }
+      };
+    </script>
+  </body>
+</html>
