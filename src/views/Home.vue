@@ -11,21 +11,29 @@
               <label for="exampleFormControlSelect1"
                 >Seleccioná tu comisión</label
               >
-              <select class="form-control" id="exampleFormControlSelect1">
-                <option>1 | Carla y Meli</option>
-                <option>2 | Lu y Kari</option>
-                <option>3 | Axel y Juanma</option>
-                <option>4 | Sil, Jud y Mili</option>
+              <select
+                class="form-control"
+                id="exampleFormControlSelect1"
+                v-model="form.commission"
+              >
+                <option value="1">1 | Carla y Meli</option>
+                <option value="2">2 | Lu y Kari</option>
+                <option value="3">3 | Axel y Juanma</option>
+                <option value="4">4 | Sil, Jud y Mili</option>
               </select>
             </div>
 
             <div class="form-group">
               <label for="exampleFormControlSelect1">Tema</label>
-              <select class="form-control" id="exampleFormControlSelect1">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
+              <select
+                class="form-control"
+                id="exampleFormControlSelect1"
+                v-model="form.theme"
+              >
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
               </select>
             </div>
 
@@ -36,12 +44,14 @@
                 class="form-control"
                 id="exampleFormControlInput1"
                 placeholder="Nombre"
+                v-model="form.firstName"
               />
               <input
                 type="email"
                 class="form-control mt-2"
                 id="exampleFormControlInput1"
                 placeholder="Apellido"
+                v-model="form.lastName"
               />
             </div>
           </form>
@@ -51,14 +61,24 @@
           <div class="form-group">
             <label for="exampleFormControlFile1">Subir imagen</label>
             <div class="file-upload-edited">
-              <input type="file" class="file-upload" @change="updateTexture" />
+              <input
+                type="file"
+                class="file-upload"
+                @change="updateTexture"
+                ref="file"
+                v-on:change="handleFileUpload"
+              />
               <button class="file-upload-btn">Seleccionar archivo</button>
             </div>
           </div>
 
           <img src="" id="uploadedImg" style="width: 300px;" />
 
-          <button type="submit" class="btn btn-primary btn-block">
+          <button
+            type="submit"
+            class="btn btn-primary btn-block"
+            @click="submit"
+          >
             Guardar
           </button>
         </div>
@@ -111,9 +131,7 @@
         </div>
       </div>
     </div>
-    <div class="info">
-      Melina Ávila Alterach
-    </div>
+    <div class="info">{{ form.firstName }} {{ form.lastName }}</div>
   </div>
 </template>
 
@@ -121,6 +139,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
+import api from "../api.js";
 
 export default {
   name: "home",
@@ -132,6 +151,14 @@ export default {
       mesh: null,
       materials: [],
       mainMaterial: null,
+      file: null,
+
+      form: {
+        commission: "1",
+        theme: "1",
+        firstName: "",
+        lastName: "",
+      },
     };
   },
   methods: {
@@ -234,6 +261,16 @@ export default {
 
       this.mainMaterial.map = map;
       this.mainMaterial.needsUpdate = true;
+    },
+    handleFileUpload() {
+      this.file = this.$refs.file.files[0];
+    },
+    submit: function() {
+      //api.store(this.form);
+      const formData = new FormData();
+      formData.append("file", this.file);
+
+      api.storeFile(formData);
     },
   },
   mounted() {
