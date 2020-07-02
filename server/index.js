@@ -1,20 +1,21 @@
-const mongoose = require("mongoose");
-const express = require("express");
-const bodyParser = require("body-parser");
-const cors = require("cors");
-const multer = require("multer");
-const path = require("path");
+const mongoose = require('mongoose');
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const multer = require('multer');
+const path = require('path');
 
 const app = express();
-mongoose.connect("mongodb://localhost:27017/bokksu", {
+mongoose.connect('mongodb://localhost:27017/bokksu', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
-const Submission = mongoose.model("Submission", {
+const Submission = mongoose.model('Submission', {
   commission: String,
   theme: String,
   firstName: String,
   lastName: String,
+  fileName: String,
   date: { type: Date, default: Date.now },
 });
 
@@ -22,22 +23,31 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
-var storage = multer.diskStorage({
-  destination: function(req, file, cb) {
-    cb(null, "../public/upload");
+const storage = multer.diskStorage({
+  destination(req, file, cb) {
+    cb(null, '../public/upload');
   },
-  filename: function(req, file, cb) {
+  filename(req, file, cb) {
     cb(null, Date.now() + path.extname(file.originalname));
   },
 });
 
-var upload = multer({ storage: storage });
+const upload = multer({ storage });
 
 app.listen(3000, () => {
-  console.log("Listening at :3000...");
+  console.log('Listening at :3000...');
 });
 
-app.get("/submissions", (request, response) => {
+app.get('/submissions/:id', (request, response) => {
+  try {
+    const { id } = request.params;
+    Submission.findById(id).then((data) => response.send(data));
+  } catch (error) {
+    response.status(500).send(error);
+  }
+});
+
+app.get('/submissions', (request, response) => {
   try {
     Submission.find().then((data) => response.send(data));
   } catch (error) {
@@ -45,38 +55,34 @@ app.get("/submissions", (request, response) => {
   }
 });
 
-app.post("/submissions", upload.single("file"), (req, resp) => {
+app.post('/submissions', upload.single('file'), (req, resp) => {
   if (!req.file) {
-    return resp.status(400).send({ error: "Missing file" });
+    return resp.status(400).send({ error: 'Archivo faltante' });
   }
-  resp.send({ status: "OK" });
-});
-
-app.post("/submissions", (req, resp) => {
-  if (
-    !req.body.commission ||
-    !req.body.theme ||
-    !req.body.firstName ||
-    !req.body.lastName
-  ) {
-    return resp.status(400).send({ error: "Invalid fields" });
+  const data = JSON.parse(req.body.data);
+  if (!data.commission || !data.theme || !data.firstName || !data.lastName) {
+    return resp.status(400).send({ error: 'Faltan completar campos' });
   }
 
   const submission = new Submission({
-    commission: req.body.commission,
-    theme: req.body.theme,
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
+    commission: data.commission,
+    theme: data.theme,
+    firstName: data.firstName,
+    lastName: data.lastName,
+    fileName: req.file.filename,
   });
+
+  console.log(req.file);
 
   submission
     .save()
-    .then((data) => {
-      resp.send(data);
+    .then((ret) => {
+      resp.send(ret);
     })
-    .catch((err) => {
+    .catch((err) =>
       resp.status(500).send({
-        error: err.message || "Error adding submission",
-      });
-    });
+        error: err.message || 'Error agregando entrega',
+      }),
+    );
+  // resp.send({ status: "OK" });
 });

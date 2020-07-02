@@ -1,23 +1,18 @@
-const apiURL = "http://127.0.0.1:3000/";
-import axios from "axios";
+import axios from 'axios';
+
+const apiURL = 'http://127.0.0.1:3000/';
 
 export default {
   store: (formData) => {
-    axios
-      .post(apiURL + "submissions", formData)
-      .then((data) => console.log(data.data));
+    axios.post(`${apiURL}submissions`, formData).then((data) => console.log(data.data));
   },
 
-  getAll: (data) => {
-    return axios.get(apiURL + "submissions");
-  },
+  getAll: () => axios.get(`${apiURL}submissions`),
 
-  storeFile: (formData) => {
-    axios
-      .post(apiURL + "submissions", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      })
-      .then((data) => console.log(data.data))
-      .catch((error) => console.log(error));
-  },
+  getId: (id) => axios.get(`${apiURL}submissions/${id}`),
+
+  storeFile: (formData) =>
+    axios.post(`${apiURL}submissions`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    }),
 };
