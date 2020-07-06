@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const apiURL = 'http://192.168.0.25:3000/';
+const apiURL = '/api/';
 
 export default {
   store: (formData) => {

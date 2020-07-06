@@ -6,6 +6,7 @@ const multer = require('multer');
 const path = require('path');
 
 const app = express();
+
 mongoose.connect('mongodb://localhost:27017/bokksu', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -38,7 +39,7 @@ app.listen(3000, () => {
   console.log('Listening at :3000...');
 });
 
-app.get('/submissions/:id', (request, response) => {
+app.get('/api/submissions/:id', (request, response) => {
   try {
     const { id } = request.params;
     Submission.findById(id).then((data) => response.send(data));
@@ -47,7 +48,7 @@ app.get('/submissions/:id', (request, response) => {
   }
 });
 
-app.get('/submissions', (request, response) => {
+app.get('/api/submissions', (request, response) => {
   try {
     Submission.find().then((data) => response.send(data));
   } catch (error) {
@@ -55,7 +56,7 @@ app.get('/submissions', (request, response) => {
   }
 });
 
-app.post('/submissions', upload.single('file'), (req, resp) => {
+app.post('/api/submissions', upload.single('file'), (req, resp) => {
   if (!req.file) {
     return resp.status(400).send({ error: 'Archivo faltante' });
   }
