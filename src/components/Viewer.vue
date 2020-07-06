@@ -2,7 +2,7 @@
   <div>
     <div class="info">
       {{ data.firstName }} {{ data.lastName }} <br />
-      Comisión {{ data.commission }} / Tema {{ data.theme }} <br />
+      Comisión: {{ commissions.find((commission) => commission.id == data.commission).name }} <br />
       {{ data.date | dateFilter }}
     </div>
   </div>
@@ -12,6 +12,9 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
+
+import templates from '../templates';
+import commissions from '../commissions';
 
 /* eslint-disable no-param-reassign */
 
@@ -27,6 +30,8 @@ export default {
       mesh: null,
       materials: [],
       mainMaterial: null,
+      commissions,
+      templates,
     };
   },
   methods: {
@@ -36,7 +41,7 @@ export default {
       document.body.appendChild(this.renderer.domElement);
 
       this.scene = new THREE.Scene();
-      this.scene.background = new THREE.Color('rgb(96%, 96%, 96%)');
+      this.scene.background = new THREE.Color('rgb(100%, 100%, 100%)');
 
       this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 1000);
 
@@ -44,17 +49,19 @@ export default {
       this.scene.add(light);
 
       const loader = new FBXLoader();
-      loader.load('/img/envase_prueba_fondo.fbx', (object) => {
+      const template = templates.find((temp) => temp.id.toString() === this.data.theme);
+      loader.load(`/img/fbx/${template.model}`, (object) => {
         object.traverse((child) => {
           if (child.isMesh) {
             child.geometry.attributes.uv2 = child.geometry.attributes.uv;
-            child.material.emissiveMap.anisotropy = 16;
+            child.material.map.anisotropy = 16;
 
             child.material = new THREE.MeshPhongMaterial({
               color: new THREE.Color('rgb(100%, 100%, 100%)'),
-              aoMap: child.material.emissiveMap,
+              aoMap: child.material.map,
+              aoMapIntensity: 0.5,
             });
-            if (child.name === 'Cube_1') {
+            if (child.name === template.objectName) {
               this.mainMaterial = child.material;
               const url = `/upload/${this.data.fileName}`;
 
@@ -72,9 +79,10 @@ export default {
       });
 
       this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+      this.controls.target = new THREE.Vector3(0, 1, 0);
       this.controls.enableDamping = true;
 
-      this.camera.position.set(2, 2, 2);
+      this.camera.position.set(1.1, 1.8, 2);
       this.controls.update();
     },
     animate() {
@@ -101,7 +109,9 @@ export default {
 <style scoped>
 .info {
   position: absolute;
-  bottom: 10px;
-  left: 10px;
+  bottom: 20px;
+  left: 20px;
+  font-size: 0.9rem;
+  color: #606186;
 }
 </style>

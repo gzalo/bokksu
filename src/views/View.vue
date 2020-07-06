@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Viewer :data="submission" />
+    <Viewer :data="submission" v-if="submission" />
   </div>
 </template>
 
@@ -14,7 +14,7 @@ export default {
 
   data() {
     return {
-      submission: {},
+      submission: null,
     };
   },
 

@@ -3,83 +3,73 @@
     <div class="menu-left p-4">
       <div class="d-flex flex-column justify-content-between fill">
         <div>
-          <h1>Bokksu</h1>
-          <hr class="pb-4" />
+          <a href="/"><img class="logo-catedra mb-5" src="/img/Logo-Belluccia-150x150.png" alt=""/></a>
 
-          <form v-if="!linkId">
+          <!-- <h1>Bokksu</h1> -->
+          <!-- <hr class="pb-4" /> -->
+
+          <form class="mt-4" v-if="!linkId">
             <div class="form-group">
               <label for="exampleFormControlSelect1">Seleccioná tu comisión</label>
               <select class="form-control" id="exampleFormControlSelect1" v-model="form.commission">
-                <option value="1">1 | Carla y Meli</option>
-                <option value="2">2 | Lu y Kari</option>
-                <option value="3">3 | Axel y Juanma</option>
-                <option value="4">4 | Sil, Jud y Mili</option>
+                <option v-for="commission in commissions" :key="commission.id" :value="commission.id">{{ commission.id }} | {{ commission.name }}</option>
               </select>
             </div>
 
             <div class="form-group">
-              <label for="exampleFormControlSelect1">Tema</label>
-              <select class="form-control" id="exampleFormControlSelect1" v-model="form.theme">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
+              <label for="exampleFormControlSelect1">Seleccioná tu tema</label>
+              <select class="form-control" id="exampleFormControlSelect1" v-model="form.theme" @change="changeObject">
+                <option v-for="template in templates" :key="template.id" :value="template.id">{{ template.name }}</option>
               </select>
             </div>
 
             <div class="form-group">
-              <label for="exampleFormControlInput1">Datos</label>
-              <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Nombre" v-model="form.firstName" />
-              <input type="email" class="form-control mt-2" id="exampleFormControlInput1" placeholder="Apellido" v-model="form.lastName" />
+              <label for="exampleFormControlInput1">Completá tus datos</label>
+              <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Nombres" v-model="form.firstName" />
+              <input type="email" class="form-control mt-2" id="exampleFormControlInput1" placeholder="Apellidos" v-model="form.lastName" />
             </div>
 
-            <a href="#">Descargar plantilla (JPG)</a>
+            <div class="pt-3"><a :href="'/img/templates/' + templates.find((template) => template.id == form.theme).download" target="_blank">Descargá la plantilla</a></div>
 
-            <div class="form-group">
-              <label for="exampleFormControlFile1">Subir imagen</label>
-              <div class="file-upload-edited">
+            <div class="mt-5 form-group form-entrega">
+              <h5>Subí tu entrega</h5>
+              <h6>Formato PNG/JPG</h6>
+              <!-- <label for="exampleFormControlFile1">Subí tu entrega</label> -->
+              <div class="file-upload-edited pb-2">
                 <input type="file" class="file-upload" @change="updateTexture" ref="file" />
                 <button class="file-upload-btn">Seleccionar archivo</button>
-                <br />{{ fileName }}
+                <br /><span class="file-name">{{ fileName }}</span>
               </div>
             </div>
 
-            <button type="submit" class="btn btn-primary btn-block" @click="submit" :disabled="submitDisabled">
+            <span class="alert alert-danger small" v-if="submitErrors">{{ submitErrors }}</span>
+
+            <button type="submit" class="btn btn-primary btn-block" @click="submit" :disabled="submitDisabled || form.firstName.trim() == '' || form.lastName.trim() == '' || submitErrors != ''">
               Guardar
             </button>
-
-            {{ submitErrors }}
           </form>
+          <!-- <button @click="view1()">Vista 1</button> -->
 
           <div v-if="linkId">
-            Archivo subido correctamente.<br />
-            <router-link :to="{ name: 'view', params: { id: linkId } }">Podrás verlo en este link</router-link>
+            <img src="/img/iconos-correctamente.png" class="img-correcta mt-4 mb-3" alt="Tu imagen se subió correctamente" />
+            <br />
+            Tu entrega se subió correctamente<br />
+            <router-link :to="{ name: 'view', params: { id: linkId } }">Podrás verla en este link</router-link>
           </div>
         </div>
 
         <div>
           <table class="table table-borderless text-center mt-5">
-            <thead>
-              <tr>
-                <th class="tabla-instrucciones" scope="col">
-                  Con click izquierdo
-                </th>
-                <th class="tabla-instrucciones" scope="col">Con la ruedita</th>
-                <th class="tabla-instrucciones" scope="col">
-                  Con click derecho
-                </th>
-              </tr>
-            </thead>
             <tbody>
               <tr>
                 <td>
-                  <img src="/img/iconos-rotacion-03.svg" class="" alt="Rotación con click izquierdo" />
+                  <img src="/img/iconos-rotacion-03.png" class="" alt="Rotación con click izquierdo" />
                 </td>
                 <td>
-                  <img src="/img/iconos-zoom-02.svg" class="" alt="Zoom con la ruedita" />
+                  <img src="/img/iconos-zoom-02.png" class="" alt="Zoom con la ruedita" />
                 </td>
                 <td>
-                  <img src="/img/iconos-camara-04.svg" class="" alt="Cámara con click derecho" />
+                  <img src="/img/iconos-camara-04.png" class="" alt="Cámara con click derecho" />
                 </td>
               </tr>
 
@@ -88,6 +78,16 @@
                 <td class="tabla-subtitulo">Zoom</td>
                 <td class="tabla-subtitulo">Cámara</td>
               </tr>
+
+              <tr>
+                <th class="tabla-instrucciones" scope="col">
+                  Click izquierdo
+                </th>
+                <th class="tabla-instrucciones" scope="col">Ruedita</th>
+                <th class="tabla-instrucciones" scope="col">
+                  Click derecho
+                </th>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -95,7 +95,7 @@
     </div>
     <div class="info">
       {{ form.firstName }} {{ form.lastName }} <br />
-      Comisión {{ form.commission }} / Tema {{ form.theme }}
+      Comisión: {{ commissions.find((commission) => commission.id == form.commission).name }} <br />
     </div>
   </div>
 </template>
@@ -105,8 +105,11 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
 import api from '../api';
+import templates from '../templates';
+import commissions from '../commissions';
 
 const noFilesSelected = 'Ningún archivo seleccionado';
+const maxFileSize = 15 * 1024 * 1024;
 
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-param-reassign */
@@ -126,6 +129,8 @@ export default {
       submitDisabled: true,
       linkId: '',
       submitErrors: '',
+      templates,
+      commissions,
 
       form: {
         commission: '1',
@@ -141,41 +146,21 @@ export default {
       this.renderer.setSize(window.innerWidth, window.innerHeight);
       document.body.appendChild(this.renderer.domElement);
 
-      this.scene = new THREE.Scene();
-      this.scene.background = new THREE.Color('rgb(96%, 96%, 96%)');
+      this.scene = this.loadScene();
 
       this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 1000);
 
-      const light = new THREE.AmbientLight(0xffffff);
-      this.scene.add(light);
-
-      const loader = new FBXLoader();
-      loader.load('img/envase_prueba_fondo.fbx', (object) => {
-        object.traverse((child) => {
-          if (child.isMesh) {
-            child.geometry.attributes.uv2 = child.geometry.attributes.uv;
-            child.material.emissiveMap.anisotropy = 16;
-
-            child.material = new THREE.MeshPhongMaterial({
-              color: new THREE.Color('rgb(100%, 100%, 100%)'),
-              aoMap: child.material.emissiveMap,
-            });
-            if (child.name === 'Cube_1') {
-              this.mainMaterial = child.material;
-            }
-          }
-        });
-
-        object.scale.multiplyScalar(0.1);
-        this.scene.add(object);
-      });
-
       this.controls = new OrbitControls(this.camera, this.renderer.domElement);
       this.controls.enableDamping = true;
+      this.controls.target = new THREE.Vector3(0, 1, 0);
+      this.camera.position.set(1.773, 1.2, 1.99);
 
-      this.camera.position.set(2, 2, 2);
       this.controls.update();
     },
+    // view1() {
+    // this.camera.position.set(1.679273021934309, 0.9682618917220973, 2.330526311027965);
+    // this.camera.rotation.set(-0.1383621152798783, 0.7537824473994289, 0.09501719700633605);
+    // },
     animate() {
       requestAnimationFrame(this.animate);
       this.controls.update();
@@ -184,6 +169,13 @@ export default {
     updateTexture(evt) {
       const userImage = evt.target.files[0];
       this.file = userImage;
+
+      console.log(this.file);
+      if (this.file.size > maxFileSize) {
+        this.submitErrors = 'Tu archivo debe pesar menos de 15 MB.';
+      } else {
+        this.submitErrors = '';
+      }
 
       if (userImage) {
         this.fileName = userImage.name;
@@ -217,10 +209,66 @@ export default {
           this.submitDisabled = false;
         });
     },
+    loadScene() {
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color('rgb(100%, 100%, 100%)');
+
+      const light = new THREE.AmbientLight(0xffffff);
+      scene.add(light);
+
+      // const light2 = new THREE.DirectionalLight(0xffffff, 0.25);
+      // light2.position.set(0, 1, 1.5);
+      // this.scene.add(light2);
+
+      // const light3 = new THREE.DirectionalLight(0xffffff, 0.25);
+      // light3.position.set(0, 1, -1.5);
+      // this.scene.add(light3);
+
+      const loader = new FBXLoader();
+      const template = templates.find((temp) => temp.id == this.form.theme);
+      loader.load(`img/fbx/${template.model}`, (object) => {
+        object.traverse((child) => {
+          if (child.isMesh) {
+            child.geometry.attributes.uv2 = child.geometry.attributes.uv;
+            // child.material.emissiveMap.anisotropy = 16;
+            child.material.map.anisotropy = 16;
+
+            child.material = new THREE.MeshPhongMaterial({
+              color: new THREE.Color('rgb(100%, 100%, 100%)'),
+              aoMap: child.material.map,
+              aoMapIntensity: 0.5,
+            });
+            console.log(child.name);
+            // child.material.color = new THREE.Color('rgb(100%, 100%, 100%)');
+            if (child.name === template.objectName) {
+              this.mainMaterial = child.material;
+              const url = `/img/templates/${template.template}`;
+
+              const map = new THREE.TextureLoader().setCrossOrigin('').load(url);
+              map.anisotropy = 16;
+
+              this.mainMaterial.map = map;
+              this.mainMaterial.needsUpdate = true;
+            }
+          }
+        });
+
+        object.scale.multiplyScalar(0.1);
+        scene.add(object);
+      });
+      return scene;
+    },
+    changeObject() {
+      this.scene = this.loadScene();
+    },
   },
   mounted() {
     this.init();
     this.animate();
+  },
+  destroyed() {
+    // this.renderer.forceContextLoss();
+    // this.renderer = null;
   },
 };
 </script>
@@ -240,46 +288,82 @@ canvas {
 canvas:focus {
   outline: none;
 }
+
+.logo-catedra {
+  width: 30px;
+  height: 30px;
+}
 </style>
 
 <style scoped>
+a {
+  color: #43438d;
+  font-weight: 500;
+  /* color: #009688; */
+  text-decoration: underline;
+}
+
 .menu-left {
   position: fixed;
   left: 0;
   top: 0;
   bottom: 0;
   width: 320px;
-  background-color: white;
+  /* background-color: white; */
+  background: linear-gradient(86deg, rgba(254, 253, 253, 1) 30%, rgb(250, 250, 250) 100%);
   overflow: hidden;
 }
 
 .tabla-instrucciones {
-  font-size: 0.75rem;
-  font-weight: 500;
+  font-size: 11px;
+  font-weight: 400;
   line-height: 1.3;
+  color: rgb(170, 170, 170);
 }
 
 .tabla-subtitulo {
-  color: grey;
+  color: rgb(112, 112, 112);
   text-transform: uppercase;
-  letter-spacing: 1px;
-  font-size: 0.6rem;
+  letter-spacing: 1.5px;
+  font-size: 10px;
   font-weight: 500;
   line-height: 1.2;
 }
 
 table img {
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
+  opacity: 0.4;
+  margin-bottom: 0.5rem;
+}
+
+.img-correcta {
+  width: 48px;
+  height: 48px;
 }
 
 .table td,
 .table th {
-  padding: 0.42rem !important;
+  padding: 0.15rem 0.2rem !important;
 }
 
 h1 {
   font-size: 1.2rem !important;
+}
+
+h5 {
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #696969;
+  margin-bottom: 0.2rem;
+  margin-top: 0.4rem;
+}
+
+h6 {
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: #7e7e7e;
+  margin-bottom: 1.2rem;
 }
 
 .fill {
@@ -289,8 +373,10 @@ h1 {
 
 .info {
   position: absolute;
-  bottom: 10px;
-  left: 330px;
+  bottom: 20px;
+  left: 360px;
+  font-size: 0.9rem;
+  color: #606186;
 }
 
 .file-upload-edited {
@@ -309,13 +395,65 @@ h1 {
 }
 
 .file-upload-btn {
-  font-size: 0.85rem;
+  font-size: 1rem;
+  color: #ffffff;
+  font-weight: 500;
+
+  background: rgb(56, 56, 120);
+  background: linear-gradient(160deg, rgba(56, 56, 120, 0.185) 0%, rgba(23, 23, 128, 0.212) 100%);
+
+  color: #43438d;
+  border: 2px solid rgba(56, 56, 120, 0.082);
+
+  /* background-color: rgba(94, 218, 189, 0.336);
+  color: rgb(19, 126, 101);
+  border: 1px solid rgba(19, 126, 101, 0.192); */
+  padding: 0.35rem;
+  width: 100%;
+  border-radius: 5px;
+  letter-spacing: 0.5px;
+}
+
+.file-name {
+  color: grey;
+  font-size: 80%;
+  letter-spacing: 0.8px;
+  margin-top: 1rem;
+}
+
+.btn-primary {
+  font-weight: 500;
+  letter-spacing: 0.4px;
+  background: rgb(61, 61, 102);
+  background: linear-gradient(160deg, rgba(61, 61, 102, 1) 0%, rgba(47, 47, 83, 1) 100%);
+  /* background: rgb(94, 218, 189);
+  background: linear-gradient(166deg, rgb(70, 190, 162) 0%, rgb(43, 143, 118) 100%); */
+  border-color: transparent;
+  margin-top: 1.5rem;
+}
+
+.btn-primary.disabled,
+.btn-primary:disabled {
+  background: linear-gradient(153deg, rgba(200, 200, 200, 1) 0%, rgba(172, 172, 172, 1) 100%);
+  border-color: rgba(151, 151, 151, 0.452);
+  color: #5a5a5a;
+}
+
+label {
+  text-transform: uppercase;
+  font-size: 70%;
   font-weight: 400;
-  background-color: #e7e7e76e;
-  border: 1px solid #50505062;
-  padding: 0.2rem 0.1rem;
-  width: 170px;
-  border-radius: 999px;
-  letter-spacing: 0.7px;
+  letter-spacing: 0.8px;
+  color: #606186;
+}
+
+.form-control {
+  font-weight: 500;
+  color: rgb(59, 59, 66);
+}
+
+.form-entrega {
+  border: 3px dashed #eaeaea;
+  padding: 1.3rem;
 }
 </style>
