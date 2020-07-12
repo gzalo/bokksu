@@ -1,95 +1,103 @@
 <template>
   <div class="home">
-    <div class="menu-left p-4">
-      <div class="d-flex flex-column justify-content-between fill">
-        <div>
-          <a href="/"><img class="logo-catedra mb-5" src="/img/Logo-Belluccia-150x150.png" alt=""/></a>
+    <div class="menu-left">
+      <div class="menu-left-inner p-4">
+        <div class="d-flex flex-column justify-content-between fill">
+          <div>
+            <a href="/"><img class="logo-catedra mb-4" src="/img/Logo-Belluccia-150x150.png" alt=""/></a>
 
-          <!-- <h1>Bokksu</h1> -->
-          <!-- <hr class="pb-4" /> -->
+            <!-- <h1>Bokksu</h1> -->
+            <!-- <hr class="pb-4" /> -->
 
-          <form class="mt-4" v-if="!linkId">
-            <div class="form-group">
-              <label for="exampleFormControlSelect1">Seleccioná tu comisión</label>
-              <select class="form-control" id="exampleFormControlSelect1" v-model="form.commission">
-                <option v-for="commission in commissions" :key="commission.id" :value="commission.id">{{ commission.id }} | {{ commission.name }}</option>
-              </select>
-            </div>
+            <form class="mt-5" v-if="!linkId">
+              <h4 class="estilo-label">Descargá la plantilla de tu tema</h4>
 
-            <div class="form-group">
-              <label for="exampleFormControlSelect1">Seleccioná tu tema</label>
-              <select class="form-control" id="exampleFormControlSelect1" v-model="form.theme" @change="changeObject">
-                <option v-for="template in templates" :key="template.id" :value="template.id">{{ template.name }}</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="exampleFormControlInput1">Completá tus datos</label>
-              <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Nombres" v-model="form.firstName" />
-              <input type="email" class="form-control mt-2" id="exampleFormControlInput1" placeholder="Apellidos" v-model="form.lastName" />
-            </div>
-
-            <div class="pt-3"><a :href="'/img/templates/' + templates.find((template) => template.id == form.theme).download" target="_blank">Descargá la plantilla</a></div>
-
-            <div class="mt-5 form-group form-entrega">
-              <h5>Subí tu entrega</h5>
-              <h6>Formato PNG/JPG</h6>
-              <!-- <label for="exampleFormControlFile1">Subí tu entrega</label> -->
-              <div class="file-upload-edited pb-2">
-                <input type="file" class="file-upload" @change="updateTexture" ref="file" />
-                <button class="file-upload-btn">Seleccionar archivo</button>
-                <br /><span class="file-name">{{ fileName }}</span>
+              <div class="form-group">
+                <select class="form-control" id="exampleFormControlSelect1" v-model="form.theme" @change="changeObject">
+                  <option v-for="template in templates" :key="template.id" :value="template.id">{{ template.name }}</option>
+                </select>
               </div>
+
+              <div class="">
+                <a :href="'/img/templates/' + templates.find((template) => template.id == form.theme).download" target="_blank"> <img src="/img/iconos-download.png" class="pr-2" alt="Ícono de descargar" />Descargar</a>
+              </div>
+
+              <h4 class="estilo-label">Seleccioná comisión y completá tus datos</h4>
+              <div class="form-group mb-3">
+                <!-- <label for="exampleFormControlSelect1">Seleccioná tu comisión</label> -->
+                <select class="form-control" id="exampleFormControlSelect1" v-model="form.commission">
+                  <option v-for="commission in commissions" :key="commission.id" :value="commission.id">{{ commission.id }} | {{ commission.name }}</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <!-- <label for="exampleFormControlInput1">Completá tus datos</label> -->
+                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Nombre" v-model="form.firstName" />
+                <input type="email" class="form-control mt-2" id="exampleFormControlInput1" placeholder="Apellido" v-model="form.lastName" />
+              </div>
+
+              <h4 class="estilo-label">Subí tu entrega</h4>
+              <div class="form-group form-entrega">
+                <!-- <h5>Subí tu entrega</h5> -->
+                <h6>Resolución: <strong>4096 x 4096px</strong> <br /><strong>JPG</strong> de alta calidad<br />Peso menor a <strong>8MB</strong></h6>
+                <!-- <label for="exampleFormControlFile1">Subí tu entrega</label> -->
+                <div class="file-upload-edited pb-2">
+                  <input type="file" class="file-upload" @change="updateTexture" ref="file" />
+                  <button class="file-upload-btn cursor-pointer">Seleccionar archivo</button>
+                  <br /><span class="file-name">{{ fileName }}</span>
+                </div>
+              </div>
+
+              <span class="alert alert-danger small" v-if="submitErrors">{{ submitErrors }}</span>
+
+              <button type="submit" class="btn btn-primary btn-block" @click="submit" :disabled="submitDisabled || form.firstName.trim() == '' || form.lastName.trim() == '' || submitErrors != ''">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="uploading"></span>
+                Guardar
+              </button>
+            </form>
+            <!-- <button @click="view1()">Vista 1</button> -->
+
+            <div v-if="linkId">
+              <img src="/img/iconos-correctamente.png" class="img-correcta mt-4 mb-3" alt="Tu imagen se subió correctamente" />
+              <br />
+              Tu entrega se subió correctamente<br />
+              <router-link :to="{ name: 'view', params: { id: linkId } }">Podrás verla en este link</router-link>
             </div>
-
-            <span class="alert alert-danger small" v-if="submitErrors">{{ submitErrors }}</span>
-
-            <button type="submit" class="btn btn-primary btn-block" @click="submit" :disabled="submitDisabled || form.firstName.trim() == '' || form.lastName.trim() == '' || submitErrors != ''">
-              Guardar
-            </button>
-          </form>
-          <!-- <button @click="view1()">Vista 1</button> -->
-
-          <div v-if="linkId">
-            <img src="/img/iconos-correctamente.png" class="img-correcta mt-4 mb-3" alt="Tu imagen se subió correctamente" />
-            <br />
-            Tu entrega se subió correctamente<br />
-            <router-link :to="{ name: 'view', params: { id: linkId } }">Podrás verla en este link</router-link>
           </div>
-        </div>
 
-        <div>
-          <table class="table table-borderless text-center mt-5">
-            <tbody>
-              <tr>
-                <td>
-                  <img src="/img/iconos-rotacion-03.png" class="" alt="Rotación con click izquierdo" />
-                </td>
-                <td>
-                  <img src="/img/iconos-zoom-02.png" class="" alt="Zoom con la ruedita" />
-                </td>
-                <td>
-                  <img src="/img/iconos-camara-04.png" class="" alt="Cámara con click derecho" />
-                </td>
-              </tr>
+          <div>
+            <table class="table table-borderless text-center mt-5">
+              <tbody>
+                <tr>
+                  <td>
+                    <img src="/img/iconos-rotacion-03.png" class="" alt="Rotación con click izquierdo" />
+                  </td>
+                  <td>
+                    <img src="/img/iconos-zoom-02.png" class="" alt="Zoom con la ruedita" />
+                  </td>
+                  <td>
+                    <img src="/img/iconos-camara-04.png" class="" alt="Cámara con click derecho" />
+                  </td>
+                </tr>
 
-              <tr>
-                <td class="tabla-subtitulo">Rotación</td>
-                <td class="tabla-subtitulo">Zoom</td>
-                <td class="tabla-subtitulo">Cámara</td>
-              </tr>
+                <tr>
+                  <td class="tabla-subtitulo">Rotación</td>
+                  <td class="tabla-subtitulo">Zoom</td>
+                  <td class="tabla-subtitulo">Cámara</td>
+                </tr>
 
-              <tr>
-                <th class="tabla-instrucciones" scope="col">
-                  Click izquierdo
-                </th>
-                <th class="tabla-instrucciones" scope="col">Ruedita</th>
-                <th class="tabla-instrucciones" scope="col">
-                  Click derecho
-                </th>
-              </tr>
-            </tbody>
-          </table>
+                <tr>
+                  <th class="tabla-instrucciones" scope="col">
+                    Click izquierdo
+                  </th>
+                  <th class="tabla-instrucciones" scope="col">Ruedita</th>
+                  <th class="tabla-instrucciones" scope="col">
+                    Click derecho
+                  </th>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -131,6 +139,7 @@ export default {
       submitErrors: '',
       templates,
       commissions,
+      uploading: false,
 
       form: {
         commission: '1',
@@ -199,14 +208,17 @@ export default {
       formData.append('file', this.file);
       formData.append('data', JSON.stringify(this.form));
       this.submitDisabled = true;
+      this.uploading = true;
       api
         .storeFile(formData)
         .then((data) => {
           this.linkId = data.data._id;
+          this.uploading = false;
         })
         .catch((error) => {
           this.submitErrors = error.response.data.error;
           this.submitDisabled = false;
+          this.uploading = false;
         });
     },
     loadScene() {
@@ -225,7 +237,7 @@ export default {
       // this.scene.add(light3);
 
       const loader = new FBXLoader();
-      const template = templates.find((temp) => temp.id == this.form.theme);
+      const template = templates.find((temp) => temp.id.toString() === this.form.theme);
       loader.load(`img/fbx/${template.model}`, (object) => {
         object.traverse((child) => {
           if (child.isMesh) {
@@ -274,6 +286,19 @@ export default {
 </script>
 
 <style>
+button {
+  cursor: pointer !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+strong {
+  font-weight: 500;
+  color: #5a5a5a;
+}
+
 body,
 html {
   margin: 0;
@@ -300,11 +325,11 @@ a {
   color: #43438d;
   font-weight: 500;
   /* color: #009688; */
-  text-decoration: underline;
+  /* text-decoration: underline; */
 }
 
 .menu-left {
-  position: fixed;
+  position: absolute;
   left: 0;
   top: 0;
   bottom: 0;
@@ -312,6 +337,11 @@ a {
   /* background-color: white; */
   background: linear-gradient(86deg, rgba(254, 253, 253, 1) 30%, rgb(250, 250, 250) 100%);
   overflow: hidden;
+}
+
+.menu-left-inner {
+  overflow: auto;
+  height: 100%;
 }
 
 .tabla-instrucciones {
@@ -352,11 +382,12 @@ h1 {
 }
 
 h5 {
-  font-size: 1.2rem;
+  font-size: 1.05rem;
   font-weight: 400;
   color: #696969;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.3rem;
   margin-top: 0.4rem;
+  letter-spacing: 0.3px;
 }
 
 h6 {
@@ -364,6 +395,8 @@ h6 {
   font-weight: 400;
   color: #7e7e7e;
   margin-bottom: 1.2rem;
+  letter-spacing: 0.3px;
+  line-height: 1.4;
 }
 
 .fill {
@@ -398,7 +431,7 @@ h6 {
   font-size: 1rem;
   color: #ffffff;
   font-weight: 500;
-
+  cursor: pointer !important;
   background: rgb(56, 56, 120);
   background: linear-gradient(160deg, rgba(56, 56, 120, 0.185) 0%, rgba(23, 23, 128, 0.212) 100%);
 
@@ -447,13 +480,23 @@ label {
   color: #606186;
 }
 
+.estilo-label {
+  text-transform: uppercase;
+  font-size: 70%;
+  font-weight: 400;
+  letter-spacing: 0.6px;
+  color: #606186;
+  margin-top: 40px;
+  margin-bottom: 10px;
+}
+
 .form-control {
   font-weight: 500;
   color: rgb(59, 59, 66);
 }
 
 .form-entrega {
-  border: 3px dashed #eaeaea;
+  border: 2px dashed #dfdfdf;
   padding: 1.3rem;
 }
 </style>

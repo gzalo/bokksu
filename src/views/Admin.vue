@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import moment from 'moment';
+import moment from 'moment-timezone';
 import api from '../api';
 import templates from '../templates';
 import commissions from '../commissions';
@@ -28,6 +28,12 @@ for (let i = 0; i < templates.length; i += 1) {
   const id = templates[i].name;
   themeValues[name] = id;
 }
+
+// eslint-disable-next-line no-unused-vars
+const customDateTimeFormatter = (cell, formatterParams, onRendered) => {
+  const date = moment.utc(cell.getValue()).tz('America/Argentina/Buenos_Aires');
+  return date.format('DD/MM/YYYY HH:mm:ss');
+};
 
 export default {
   data() {
@@ -73,7 +79,7 @@ export default {
             title: 'Fecha de subida',
             field: 'date',
             sorter: 'datetime',
-            formatter: 'datetime',
+            formatter: customDateTimeFormatter,
             editor: false,
           },
         ],
@@ -166,15 +172,13 @@ h2 {
 .fondo {
   background-color: #24243c;
   color: white;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
 }
 </style>
 
 <style>
+body {
+  background-color: #24243c;
+}
 .tabulator-col-title {
   display: inline;
 }
