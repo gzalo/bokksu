@@ -116,6 +116,7 @@ import api from '../api';
 import templates from '../templates';
 import commissions from '../commissions';
 
+const backgroundColor = new THREE.Color('rgb(93%, 93%, 93%)');
 const noFilesSelected = 'Ningún archivo seleccionado';
 const maxFileSize = 15 * 1024 * 1024;
 
@@ -142,8 +143,8 @@ export default {
       uploading: false,
 
       form: {
-        commission: '1',
-        theme: '1',
+        commission: 1,
+        theme: 1,
         firstName: '',
         lastName: '',
       },
@@ -223,7 +224,7 @@ export default {
     },
     loadScene() {
       const scene = new THREE.Scene();
-      scene.background = new THREE.Color('rgb(100%, 100%, 100%)');
+      scene.background = backgroundColor;
 
       const light = new THREE.AmbientLight(0xffffff);
       scene.add(light);
@@ -237,7 +238,7 @@ export default {
       // this.scene.add(light3);
 
       const loader = new FBXLoader();
-      const template = templates.find((temp) => temp.id.toString() === this.form.theme);
+      const template = templates.find((temp) => temp.id === this.form.theme);
       loader.load(`img/fbx/${template.model}`, (object) => {
         object.traverse((child) => {
           if (child.isMesh) {
@@ -245,14 +246,15 @@ export default {
             // child.material.emissiveMap.anisotropy = 16;
             child.material.map.anisotropy = 16;
 
-            child.material = new THREE.MeshPhongMaterial({
-              color: new THREE.Color('rgb(100%, 100%, 100%)'),
-              aoMap: child.material.map,
-              aoMapIntensity: 0.5,
-            });
             console.log(child.name);
             // child.material.color = new THREE.Color('rgb(100%, 100%, 100%)');
             if (child.name === template.objectName) {
+              child.material = new THREE.MeshPhongMaterial({
+                color: new THREE.Color('rgb(100%, 100%, 100%)'),
+                aoMap: child.material.map,
+                aoMapIntensity: 0.5,
+              });
+
               this.mainMaterial = child.material;
               const url = `/img/templates/${template.template}`;
 
@@ -261,6 +263,14 @@ export default {
 
               this.mainMaterial.map = map;
               this.mainMaterial.needsUpdate = true;
+            }
+
+            if (child.name === template.planeName) {
+              child.material = new THREE.MeshPhongMaterial({
+                color: backgroundColor,
+                aoMap: child.material.map,
+                aoMapIntensity: 0.5,
+              });
             }
           }
         });

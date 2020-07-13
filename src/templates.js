@@ -6,6 +6,7 @@ export default [
     template: 'envase_bizcochuelo.png',
     download: 'envase_bizcochuelo.png',
     objectName: 'Cube_2',
+    planeName: 'Plane_1',
   },
   {
     id: 2,
@@ -14,6 +15,7 @@ export default [
     template: 'envase_granola.png',
     download: 'envase_granola.png',
     objectName: 'Granola',
+    planeName: 'PlaneGranola_1',
   },
   {
     id: 3,
@@ -22,6 +24,7 @@ export default [
     template: 'envase_leche-saborizada.png',
     download: 'envase_leche-saborizada.psd',
     objectName: 'Estuche_leche_1',
+    planeName: 'Plane_leche',
   },
   {
     id: 4,
@@ -30,6 +33,7 @@ export default [
     template: 'envase_pasta-seca.png',
     download: 'envase_pasta-seca.png',
     objectName: 'PastaSeca_1',
+    planeName: 'PlanePastaSeca_1',
   },
   {
     id: 5,
@@ -38,6 +42,7 @@ export default [
     template: 'envase_galletitas.png',
     download: 'envase_galletitas.png',
     objectName: 'Galletitas_1',
+    planeName: 'PlaneGalletitas_1',
   },
   {
     id: 6,
@@ -46,5 +51,6 @@ export default [
     template: 'envase_estuche-vino.png',
     download: 'envase_estuche-vino.png',
     objectName: 'Estuche_vino_1',
+    planeName: 'Plane_Estuche_vino_1',
   },
 ];

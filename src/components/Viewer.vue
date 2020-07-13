@@ -16,6 +16,8 @@ import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
 import templates from '../templates';
 import commissions from '../commissions';
 
+const backgroundColor = new THREE.Color('rgb(93%, 93%, 93%)');
+
 /* eslint-disable no-param-reassign */
 
 export default {
@@ -41,7 +43,7 @@ export default {
       document.body.appendChild(this.renderer.domElement);
 
       this.scene = new THREE.Scene();
-      this.scene.background = new THREE.Color('rgb(100%, 100%, 100%)');
+      this.scene.background = backgroundColor;
 
       this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 1000);
 
@@ -56,12 +58,13 @@ export default {
             child.geometry.attributes.uv2 = child.geometry.attributes.uv;
             child.material.map.anisotropy = 16;
 
-            child.material = new THREE.MeshPhongMaterial({
-              color: new THREE.Color('rgb(100%, 100%, 100%)'),
-              aoMap: child.material.map,
-              aoMapIntensity: 0.5,
-            });
             if (child.name === template.objectName) {
+              child.material = new THREE.MeshPhongMaterial({
+                color: new THREE.Color('rgb(100%, 100%, 100%)'),
+                aoMap: child.material.map,
+                aoMapIntensity: 0.5,
+              });
+
               this.mainMaterial = child.material;
               const url = `/upload/${this.data.fileName}`;
 
@@ -70,6 +73,14 @@ export default {
 
               this.mainMaterial.map = map;
               this.mainMaterial.needsUpdate = true;
+            }
+
+            if (child.name === template.planeName) {
+              child.material = new THREE.MeshPhongMaterial({
+                color: backgroundColor,
+                aoMap: child.material.map,
+                aoMapIntensity: 0.5,
+              });
             }
           }
         });
