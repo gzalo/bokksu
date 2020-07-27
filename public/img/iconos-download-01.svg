@@ -3,18 +3,19 @@
 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 16 16" style="enable-background:new 0 0 16 16;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:none;stroke:#000000;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
-	.st1{fill:none;stroke:#000000;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
-	.st2{fill:none;stroke:#000000;stroke-width:1.15;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
-	.st3{stroke:#000000;stroke-width:0.3;stroke-miterlimit:10;}
+	.st0{fill:#43438D;}
+	.st1{fill:none;stroke:#43438D;stroke-width:1.35;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
 </style>
 <g>
-	<path d="M8,11.6c-0.4,0-0.7-0.3-0.7-0.7V1.8c0-0.4,0.3-0.7,0.7-0.7c0.4,0,0.7,0.3,0.7,0.7v9.1C8.7,11.3,8.4,11.6,8,11.6z"/>
+	<path class="st0" d="M8,9.6c-0.4,0-0.7-0.3-0.7-0.7V0.8c0-0.4,0.3-0.7,0.7-0.7s0.7,0.3,0.7,0.7v8.1C8.7,9.3,8.4,9.6,8,9.6z"/>
 </g>
 <g>
-	<polygon points="8,11.5 5.4,8.9 4.9,9.4 8,12.5 11.1,9.4 10.6,8.9 	"/>
-	<path d="M8,12.7L4.7,9.4l0.7-0.7L8,11.3l2.6-2.6l0.7,0.7L8,12.7z M5.1,9.4L8,12.3l2.9-2.9l-0.3-0.3L8,11.7L5.4,9.1L5.1,9.4z"/>
+	<polygon class="st0" points="8,9.5 5.4,6.9 4.9,7.4 8,10.5 11.1,7.4 10.6,6.9 	"/>
+	<path class="st0" d="M8,10.7L4.7,7.4l0.7-0.7L8,9.3l2.6-2.6l0.7,0.7L8,10.7z M5.1,7.4L8,10.3l2.9-2.9l-0.3-0.3L8,9.7L5.4,7.1
+		L5.1,7.4z"/>
 </g>
-<path class="st2" d="M3,8.2H1.9c-0.4,0-0.7,0.4-0.7,0.9v5c0,0.5,0.3,0.9,0.7,0.9h12.2c0.4,0,0.7-0.4,0.7-0.9v-5
-	c0-0.5-0.3-0.9-0.7-0.9H13"/>
+<path class="st1" d="M2.8,6.7H1.9c-0.4,0-0.7,0.4-0.7,0.8v4.6c0,0.5,0.3,0.8,0.7,0.8h12.2c0.4,0,0.7-0.4,0.7-0.8V7.5
+	c0-0.5-0.3-0.8-0.7-0.8h-0.9"/>
+<image style="overflow:visible;" width="16" height="16" xlink:href="23FCCE09.jpg"  transform="matrix(1 0 0 1 19.9802 0.7)">
+</image>
 </svg>

@@ -4,7 +4,7 @@
       <div class="menu-left-inner p-4">
         <div class="d-flex flex-column justify-content-between fill">
           <div>
-            <a href="/"><img class="logo-catedra mb-4" src="/img/Logo-Belluccia-150x150.png" alt=""/></a>
+            <a href="/"><img class="logo-catedra mb-2" src="/img/Logo-Belluccia-150x150.png" alt=""/></a>
 
             <!-- <h1>Bokksu</h1> -->
             <!-- <hr class="pb-4" /> -->
@@ -19,7 +19,7 @@
               </div>
 
               <div class="">
-                <a :href="'/img/templates/' + templates.find((template) => template.id == form.theme).download" target="_blank"> <img src="/img/iconos-download.png" class="pr-2" alt="Ícono de descargar" />Descargar</a>
+                <a :href="'/img/templates/' + templates.find((template) => template.id == form.theme).download" target="_blank"> <img src="/img/iconos-download@3x.png" class="mr-2" style="height:16px; width:16px;" alt="Ícono de descargar" />Descargar</a>
               </div>
 
               <h4 class="estilo-label">Seleccioná comisión y completá tus datos</h4>
@@ -65,7 +65,7 @@
             </div>
           </div>
 
-          <div>
+          <!-- <div>
             <table class="table table-borderless text-center mt-5">
               <tbody>
                 <tr>
@@ -97,7 +97,7 @@
                 </tr>
               </tbody>
             </table>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -263,11 +263,15 @@ export default {
 
               this.mainMaterial.map = map;
               this.mainMaterial.needsUpdate = true;
-            }
-
-            if (child.name === template.planeName) {
+            } else if (child.name === template.planeName) {
               child.material = new THREE.MeshPhongMaterial({
                 color: backgroundColor,
+                aoMap: child.material.map,
+                aoMapIntensity: 0.5,
+              });
+            } else {
+              child.material = new THREE.MeshPhongMaterial({
+                color: new THREE.Color('rgb(100%, 100%, 100%)'),
                 aoMap: child.material.map,
                 aoMapIntensity: 0.5,
               });
@@ -325,8 +329,8 @@ canvas:focus {
 }
 
 .logo-catedra {
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
 }
 </style>
 
@@ -492,7 +496,7 @@ label {
 
 .estilo-label {
   text-transform: uppercase;
-  font-size: 70%;
+  font-size: 66%;
   font-weight: 400;
   letter-spacing: 0.6px;
   color: #606186;

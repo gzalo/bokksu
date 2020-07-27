@@ -73,11 +73,15 @@ export default {
 
               this.mainMaterial.map = map;
               this.mainMaterial.needsUpdate = true;
-            }
-
-            if (child.name === template.planeName) {
+            } else if (child.name === template.planeName) {
               child.material = new THREE.MeshPhongMaterial({
                 color: backgroundColor,
+                aoMap: child.material.map,
+                aoMapIntensity: 0.5,
+              });
+            } else {
+              child.material = new THREE.MeshPhongMaterial({
+                color: new THREE.Color('rgb(100%, 100%, 100%)'),
                 aoMap: child.material.map,
                 aoMapIntensity: 0.5,
               });

@@ -21,6 +21,7 @@ export default {
   mounted() {
     api.getId(this.id).then((data) => {
       this.submission = data.data;
+      document.title = `${this.submission.firstName} ${this.submission.lastName}`;
     });
   },
 };

@@ -1,10 +1,11 @@
 <template>
-  <div class="fondo">
+  <div class="fondo mb-5">
     <div class="container">
       <a href="/"><img class="logo-catedra my-4" src="/img/Logo-Belluccia-150x150.png" alt=""/></a>
       <h2>Administración de entregas</h2>
 
       <VueTabulator v-model="submissions" :options="options" @row-click="rowClick" />
+      <p id="contador"></p>
     </div>
   </div>
 </template>
@@ -29,10 +30,50 @@ for (let i = 0; i < templates.length; i += 1) {
   themeValues[name] = id;
 }
 
+const dateValues = {
+  '': 'Todos',
+  0: 'Preentrega',
+  1: 'Corr. Preentrega',
+  2: 'Lunes 20',
+  3: 'Jueves 23',
+  4: 'Entrega Final',
+  9: 'Otra clase',
+};
+
+const getClase = (date) => {
+  if (date.isBefore('2020-07-15T03:00:00Z')) {
+    return 0;
+  }
+  if (date.isBefore('2020-07-17T03:00:00Z')) {
+    return 1;
+  }
+  if (date.isBefore('2020-07-21T03:00:00Z')) {
+    return 2;
+  }
+  if (date.isBefore('2020-07-24T03:00:00Z')) {
+    return 3;
+  }
+  if (date.isBefore('2020-07-28T03:00:00Z')) {
+    return 4;
+  }
+  return 9;
+};
+
 // eslint-disable-next-line no-unused-vars
 const customDateTimeFormatter = (cell, formatterParams, onRendered) => {
   const date = moment.utc(cell.getValue()).tz('America/Argentina/Buenos_Aires');
-  return date.format('DD/MM/YYYY HH:mm:ss');
+
+  const title = date.format('DD/MM/YYYY HH:mm');
+  const clase = getClase(date);
+  return `<span class='date-common date-${clase}' title='${title}'>${dateValues[clase]}</span>`;
+};
+
+const customDateFilter = (headerValue, rowValue, rowData, filterParams) => {
+  if (headerValue instanceof Array) return true;
+
+  const date = moment.utc(rowValue).tz('America/Argentina/Buenos_Aires');
+  const clase = getClase(date);
+  return clase === parseInt(headerValue, 10);
 };
 
 export default {
@@ -40,8 +81,20 @@ export default {
     return {
       submissions: [],
       options: {
+        locale: 'es',
+        langs: {
+          es: {
+            headerFilters: {
+              default: 'Filtrar...',
+            },
+          },
+        },
         index: '_id',
         layout: 'fitColumns',
+        dataFiltered(filters, rows) {
+          const rowNumber = rows.length;
+          document.querySelector('#contador').innerHTML = rowNumber + (rowNumber === 1 ? ' entrega' : ' entregas');
+        },
         columns: [
           {
             title: 'Nombre',
@@ -59,6 +112,7 @@ export default {
             title: 'Comisión',
             field: 'commission',
             sorter: 'string',
+            width: 200,
             headerFilter: 'select',
             headerFilterParams: commissionValues,
             formatter(cell) {
@@ -80,6 +134,10 @@ export default {
             field: 'date',
             sorter: 'datetime',
             formatter: customDateTimeFormatter,
+            sorterParams: { format: 'YYYY-MM-DD[T]HH:mm:ss.SSS[Z]Z' },
+            headerFilter: 'select',
+            headerFilterParams: dateValues,
+            headerFilterFunc: customDateFilter,
             editor: false,
           },
         ],
@@ -153,11 +211,18 @@ export default {
 .tabulator-header-filter {
   margin-top: 0.8rem !important;
 }
+
+.tabulator-header-filter input {
+  padding-left: 0.6rem !important;
+  border-radius: 0.25rem;
+  border-color: transparent;
+}
 </style>
 
 <style scoped>
 .container {
   max-width: 1280px;
+  margin-bottom: 8rem;
 }
 
 h2 {
@@ -185,5 +250,59 @@ body {
 
 .tabulator-arrow {
   position: initial !important;
+}
+
+#contador {
+  font-size: 0.9rem;
+  margin-top: 1rem;
+  color: rgba(255, 255, 255, 0.753);
+  letter-spacing: 0.6px;
+}
+
+.date-common {
+  padding: 0.3rem 0.8rem;
+  letter-spacing: 1px;
+  margin-top: 0.6rem;
+  text-transform: uppercase;
+  font-size: 76%;
+  border-radius: 99px;
+  font-weight: bold;
+}
+
+.date-0 {
+  background-color: rgba(0, 21, 43, 0.21);
+  border: 2px solid rgba(80, 124, 228, 0.418);
+  color: #7192e0;
+}
+
+.date-1 {
+  background-color: rgba(218, 61, 147, 0);
+  border: 2px solid rgba(61, 194, 218, 0.356);
+  color: #33b5be;
+}
+
+.date-2 {
+  /* background-color: rgba(218, 61, 147, 0);
+  border: 2px solid rgba(249, 252, 64, 0.473);
+  color: rgb(252, 224, 64); */
+  background-color: rgba(218, 61, 147, 0);
+  border: 2px solid rgba(252, 133, 64, 0.473);
+  color: rgb(230, 121, 59);
+}
+
+.date-9 {
+  border: 2px solid rgba(218, 106, 61, 0.473);
+}
+
+.date-3 {
+  background-color: rgba(218, 61, 147, 0);
+  border: 2px solid rgba(218, 61, 147, 0.473);
+  color: #f7389a;
+}
+
+.date-4 {
+  background-color: rgba(0, 21, 43, 0.21);
+  border: 2px solid rgba(228, 80, 100, 0.534);
+  color: #fc405c;
 }
 </style>
