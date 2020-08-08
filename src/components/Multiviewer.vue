@@ -8,6 +8,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
+import { VRButton } from 'three/examples/jsm/webxr/VRButton';
 
 import templates from '../templates';
 import commissions from '../commissions';
@@ -45,6 +46,8 @@ export default {
       this.renderer = new THREE.WebGLRenderer({ antialias: true });
       this.renderer.setSize(window.innerWidth, window.innerHeight);
       document.body.appendChild(this.renderer.domElement);
+      document.body.appendChild(VRButton.createButton(this.renderer));
+      this.renderer.xr.enabled = true;
 
       this.scene = new THREE.Scene();
       this.scene.background = backgroundColor;
@@ -129,15 +132,11 @@ export default {
 
       this.camera.position.set(0, 1.8, 5);
       this.controls.update();
-    },
-    animate() {
-      if (!this.renderer) {
-        return;
-      }
 
-      requestAnimationFrame(this.animate);
-      this.controls.update();
-      this.renderer.render(this.scene, this.camera);
+      this.renderer.setAnimationLoop(() => {
+        this.controls.update();
+        this.renderer.render(this.scene, this.camera);
+      });
     },
   },
   mounted() {

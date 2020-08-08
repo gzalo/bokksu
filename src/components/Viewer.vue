@@ -12,6 +12,8 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
+import { VRButton } from 'three/examples/jsm/webxr/VRButton';
+import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory';
 
 import templates from '../templates';
 import commissions from '../commissions';
@@ -34,6 +36,11 @@ export default {
       mainMaterial: null,
       commissions,
       templates,
+      controller1: null,
+      controller2: null,
+      controllerGrip1: null,
+      controllerGrip2: null,
+      raycaster: null,
     };
   },
   methods: {
@@ -41,6 +48,8 @@ export default {
       this.renderer = new THREE.WebGLRenderer({ antialias: true });
       this.renderer.setSize(window.innerWidth, window.innerHeight);
       document.body.appendChild(this.renderer.domElement);
+      document.body.appendChild(VRButton.createButton(this.renderer));
+      this.renderer.xr.enabled = true;
 
       this.scene = new THREE.Scene();
       this.scene.background = backgroundColor;
@@ -99,20 +108,37 @@ export default {
 
       this.camera.position.set(1.1, 1.8, 2);
       this.controls.update();
-    },
-    animate() {
-      if (!this.renderer) {
-        return;
-      }
 
-      requestAnimationFrame(this.animate);
-      this.controls.update();
-      this.renderer.render(this.scene, this.camera);
+      this.controller1 = this.renderer.xr.getController(0);
+      this.controller1.addEventListener('selectstart', this.onSelectStart);
+      this.controller1.addEventListener('selectend', this.onSelectEnd);
+      this.scene.add(this.controller1);
+
+      this.controller2 = this.renderer.xr.getController(1);
+      this.controller2.addEventListener('selectstart', this.onSelectStart);
+      this.controller2.addEventListener('selectend', this.onSelectEnd);
+      this.scene.add(this.controller2);
+
+      const controllerModelFactory = new XRControllerModelFactory();
+
+      this.controllerGrip1 = this.renderer.xr.getControllerGrip(0);
+      this.controllerGrip1.add(controllerModelFactory.createControllerModel(this.controllerGrip1));
+      this.scene.add(this.controllerGrip1);
+
+      this.controllerGrip2 = this.renderer.xr.getControllerGrip(1);
+      this.controllerGrip2.add(controllerModelFactory.createControllerModel(this.controllerGrip2));
+      this.scene.add(this.controllerGrip2);
+
+      this.raycaster = new THREE.Raycaster();
+
+      this.renderer.setAnimationLoop(() => {
+        this.controls.update();
+        this.renderer.render(this.scene, this.camera);
+      });
     },
   },
   mounted() {
     this.init();
-    this.animate();
   },
   destroyed() {
     this.renderer.forceContextLoss();
