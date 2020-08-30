@@ -7,7 +7,7 @@ const path = require('path');
 
 const app = express();
 
-mongoose.connect('mongodb://localhost:27017/bokksu', {
+mongoose.connect('mongodb://localhost:27017/bokksu_envase', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });

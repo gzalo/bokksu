@@ -1,18 +1,18 @@
 export default [
   {
     id: 1,
-    name: 'Carla y Melina',
+    name: 'Comisión 1',
   },
   {
     id: 2,
-    name: 'Lucía y Karina',
+    name: 'Comisión 2',
   },
   {
     id: 3,
-    name: 'Axel y Juanma',
+    name: 'Comisión 3',
   },
   {
     id: 4,
-    name: 'Silvia, Judith y Mili',
+    name: 'Comisión 4',
   },
 ];

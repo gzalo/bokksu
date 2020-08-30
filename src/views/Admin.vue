@@ -3,9 +3,8 @@
     <div class="container">
       <a href="/"><img class="logo-catedra my-4" src="/img/Logo-Belluccia-150x150.png" alt=""/></a>
       <h2>Administración de entregas</h2>
-
-      <VueTabulator v-model="submissions" :options="options" @row-click="rowClick" />
       <p id="contador"></p>
+      <VueTabulator v-model="submissions" :options="options" @row-click="rowClick" />
     </div>
   </div>
 </template>

@@ -22,7 +22,7 @@
                 <a :href="'/img/templates/' + templates.find((template) => template.id == form.theme).download" target="_blank"> <img src="/img/iconos-download@3x.png" class="mr-2" style="height:16px; width:16px;" alt="Ícono de descargar" />Descargar</a>
               </div>
 
-              <h4 class="estilo-label">Seleccioná comisión y completá tus datos</h4>
+              <h4 class="estilo-label">Seleccioná comisión, completá tus datos</h4>
               <div class="form-group mb-3">
                 <!-- <label for="exampleFormControlSelect1">Seleccioná tu comisión</label> -->
                 <select class="form-control" id="exampleFormControlSelect1" v-model="form.commission">
@@ -242,11 +242,12 @@ export default {
       loader.load(`img/fbx/${template.model}`, (object) => {
         object.traverse((child) => {
           if (child.isMesh) {
+            console.log(child.name);
+
             child.geometry.attributes.uv2 = child.geometry.attributes.uv;
             // child.material.emissiveMap.anisotropy = 16;
             child.material.map.anisotropy = 16;
 
-            console.log(child.name);
             // child.material.color = new THREE.Color('rgb(100%, 100%, 100%)');
             if (child.name === template.objectName) {
               child.material = new THREE.MeshPhongMaterial({
@@ -347,7 +348,7 @@ a {
   left: 0;
   top: 0;
   bottom: 0;
-  width: 320px;
+  width: 350px;
   /* background-color: white; */
   background: linear-gradient(86deg, rgba(254, 253, 253, 1) 30%, rgb(250, 250, 250) 100%);
   overflow: hidden;
@@ -421,7 +422,7 @@ h6 {
 .info {
   position: absolute;
   bottom: 20px;
-  left: 360px;
+  left: 380px;
   font-size: 0.9rem;
   color: #606186;
 }
@@ -477,6 +478,7 @@ h6 {
   background: linear-gradient(166deg, rgb(70, 190, 162) 0%, rgb(43, 143, 118) 100%); */
   border-color: transparent;
   margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .btn-primary.disabled,
