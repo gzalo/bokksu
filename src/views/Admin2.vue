@@ -2,11 +2,12 @@
   <div class="fondo mb-5">
     <div class="container">
       <a href="/"><img class="logo-catedra my-4" src="/img/Logo-Belluccia-150x150.png" alt=""/></a>
-      <h2>Administración de entregas</h2>
+      <h2>Previsualización múltiple</h2>
 
-      <VueTabulator v-model="submissions" :options="options" @row-dbl-click="rowDblClick" ref="tabulator" />
       <p id="contador"></p>
-      <p id="multiviewer"><a href="#" @click="multiview()">Visualizar entregas seleccionadas</a></p>
+      <p><a href="#" @click="multiview()">Visualizar entregas seleccionadas</a></p>
+      <VueTabulator v-model="submissions" :options="options" @row-dbl-click="rowDblClick" ref="tabulator" />
+      <p class="pt-3"><a href="#" @click="multiview()">Visualizar entregas seleccionadas</a></p>
     </div>
   </div>
 </template>
@@ -24,11 +25,9 @@ for (let i = 0; i < commissions.length; i += 1) {
   commissionValues[name] = id;
 }
 
-const themeValues = { '': 'Todos' };
+const themeValues = {};
 for (let i = 0; i < templates.length; i += 1) {
-  const name = templates[i].id;
-  const id = templates[i].name;
-  themeValues[name] = id;
+  themeValues[templates[i].name] = templates[i].name;
 }
 
 const dateValues = {
@@ -84,6 +83,16 @@ export default {
       submissions: [],
       options: {
         locale: 'es',
+        // eslint-disable-next-line no-unused-vars
+        dataFiltering: (filters, rows) => {
+          this.deselectAll();
+        },
+        initialHeaderFilter: [
+          {
+            field: 'theme',
+            value: templates[0].name,
+          },
+        ],
         langs: {
           es: {
             headerFilters: {
@@ -130,9 +139,6 @@ export default {
             sorter: 'string',
             headerFilter: 'select',
             headerFilterParams: themeValues,
-            formatter(cell) {
-              return templates.find((template) => template.id.toString() === cell.getValue()).name;
-            },
           },
           {
             title: 'Fecha de subida',
@@ -154,10 +160,25 @@ export default {
     window.moment = moment;
     api.getAll().then((data) => {
       this.submissions = data.data;
+      for (let i = 0; i < this.submissions.length; i += 1) {
+        this.submissions[i].theme = templates.find((template) => template.id.toString() === this.submissions[i].theme).name;
+      }
     });
   },
 
   methods: {
+    deselectAll() {
+      const tabulatorInstance = this.$refs.tabulator.getInstance();
+      if (!tabulatorInstance) {
+        return;
+      }
+      const selectedRows = tabulatorInstance.getSelectedRows();
+
+      selectedRows.forEach((row) => {
+        row.toggleSelect();
+      });
+    },
+
     rowDblClick(e, row) {
       const id = row.getIndex();
       // this.$router.push({ name: 'view', params: { id } });
@@ -337,4 +358,12 @@ a:hover {
   font-weight: 500;
   background-color: transparent;
 }
+
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+  -webkit-appearance:none;
+}
+
 </style>

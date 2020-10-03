@@ -2,12 +2,13 @@ export default [
   {
     id: 1,
     model: 'envase_spaghetti.fbx',
-    name: 'Spaghetti',
+    name: 'Spaghetti  ',
     template: 'envase_spaguetthi_horizontal.png',
     download: 'envase_spaguetthi_horizontal.png',
     objectName: 'spaghetti_1',
     planeName: 'Plane_1',
-    separation: 2,
+    separation: 4,
+    cameraData: [0, 0.2, 0, 3, 1.2, 3],
   },
   {
     id: 2,
@@ -17,7 +18,8 @@ export default [
     download: 'envase_spaguetthi_vertical.png',
     objectName: 'spaghetti_1',
     planeName: 'Plane_1',
-    separation: 1.5,
+    separation: 1.8,
+    cameraData: [0, 1.3, 0, 1.773, 2, 6],
   },
   {
     id: 3,
@@ -27,7 +29,8 @@ export default [
     download: 'envase_pizza.png',
     objectName: 'pizza_1',
     planeName: 'Plane_1',
-    separation: 2.5,
+    separation: 2,
+    cameraData: [0, 1, 0, 2.6595, 2.5, 4.975],
   },
   {
     id: 4,
@@ -37,6 +40,7 @@ export default [
     download: 'envase_tostadas.png',
     objectName: 'tostadas_1',
     planeName: 'Plane_1',
-    separation: 1.5,
+    separation: 2.5,
+    cameraData: [0, 0.7, 0, 2.1276, 2.4, 4.577],
   },
 ];

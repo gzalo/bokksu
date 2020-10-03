@@ -45,7 +45,7 @@ export default {
       this.scene = new THREE.Scene();
       this.scene.background = backgroundColor;
 
-      this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 1000);
+      this.camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.01, 1000);
 
       const light = new THREE.AmbientLight(0xffffff);
       this.scene.add(light);
@@ -94,10 +94,11 @@ export default {
       });
 
       this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-      this.controls.target = new THREE.Vector3(0, 1, 0);
       this.controls.enableDamping = true;
 
-      this.camera.position.set(1.1, 1.8, 2);
+      const { cameraData } = template;
+      this.controls.target = new THREE.Vector3(cameraData[0], cameraData[1], cameraData[2]);
+      this.camera.position.set(cameraData[3], cameraData[4], cameraData[5]);
       this.controls.update();
     },
     animate() {

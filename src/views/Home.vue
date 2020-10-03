@@ -190,14 +190,24 @@ export default {
       this.renderer.setSize(window.innerWidth, window.innerHeight);
       document.body.appendChild(this.renderer.domElement);
 
-      this.scene = this.loadScene();
-
-      this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 1000);
-
+      this.camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.01, 1000);
       this.controls = new OrbitControls(this.camera, this.renderer.domElement);
       this.controls.enableDamping = true;
-      this.controls.target = new THREE.Vector3(0, 1, 0);
-      this.camera.position.set(1.773, 1.2, 1.99);
+
+      this.scene = this.loadScene();
+
+      // 1 (spag)
+      // this.controls.target = new THREE.Vector3(0, 0.2, 0);
+      // this.camera.position.set(3, 1.2, 3);
+      // 2 (spag vert)
+      // this.controls.target = new THREE.Vector3(0, 1.3, 0);
+      // this.camera.position.set(1.773 * 1, 2, 1.99 * 3);
+      // 3 (pizza)
+      // this.controls.target = new THREE.Vector3(0, 1, 0);
+      // this.camera.position.set(1.773 * 1.5, 2.5, 1.99 * 2.5);
+      // 4 (tostadas)
+      // this.controls.target = new THREE.Vector3(0, 0.7, 0);
+      // this.camera.position.set(1.773 * 1.2, 1.2 * 2, 1.99 * 2.3);
 
       this.controls.update();
     },
@@ -317,6 +327,12 @@ export default {
         object.scale.multiplyScalar(0.1);
         scene.add(object);
       });
+
+      const { cameraData } = template;
+      this.controls.target = new THREE.Vector3(cameraData[0], cameraData[1], cameraData[2]);
+      this.camera.position.set(cameraData[3], cameraData[4], cameraData[5]);
+      this.controls.update();
+
       return scene;
     },
     changeObject() {

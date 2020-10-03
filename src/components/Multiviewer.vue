@@ -49,7 +49,7 @@ export default {
       this.scene = new THREE.Scene();
       this.scene.background = backgroundColor;
 
-      this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 1000);
+      this.camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.01, 1000);
 
       const light = new THREE.AmbientLight(0xffffff);
       this.scene.add(light);
