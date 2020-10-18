@@ -32,29 +32,25 @@ for (let i = 0; i < templates.length; i += 1) {
 
 const dateValues = {
   '': 'Todos',
-  0: 'Preentrega',
-  1: 'Corr. Preentrega',
-  2: 'Lunes 20',
-  3: 'Jueves 23',
-  4: 'Entrega Final',
+  0: 'Jueves 15',
+  1: 'Jueves 22',
+  2: 'Preentrega',
+  3: 'Entrega Final',
   9: 'Otra clase',
 };
 
 const getClase = (date) => {
-  if (date.isBefore('2020-07-15T03:00:00Z')) {
+  if (date.isBefore('2020-10-16T03:00:00Z')) {
     return 0;
   }
-  if (date.isBefore('2020-07-17T03:00:00Z')) {
+  if (date.isBefore('2020-10-23T03:00:00Z')) {
     return 1;
   }
-  if (date.isBefore('2020-07-21T03:00:00Z')) {
+  if (date.isBefore('2020-10-30T03:00:00Z')) {
     return 2;
   }
-  if (date.isBefore('2020-07-24T03:00:00Z')) {
+  if (date.isBefore('2020-11-06T03:00:00Z')) {
     return 3;
-  }
-  if (date.isBefore('2020-07-28T03:00:00Z')) {
-    return 4;
   }
   return 9;
 };
@@ -359,11 +355,10 @@ a:hover {
   background-color: transparent;
 }
 
-input[type="search"]::-webkit-search-decoration,
-input[type="search"]::-webkit-search-cancel-button,
-input[type="search"]::-webkit-search-results-button,
-input[type="search"]::-webkit-search-results-decoration {
-  -webkit-appearance:none;
+input[type='search']::-webkit-search-decoration,
+input[type='search']::-webkit-search-cancel-button,
+input[type='search']::-webkit-search-results-button,
+input[type='search']::-webkit-search-results-decoration {
+  -webkit-appearance: none;
 }
-
 </style>

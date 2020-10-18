@@ -72,12 +72,7 @@ export default {
               });
 
               this.mainMaterial = child.material;
-              const url = `/upload/${this.data.fileName}`;
 
-              //   const map = new THREE.TextureLoader().setCrossOrigin('').load(url);
-              //   map.anisotropy = 16;
-
-              //   this.mainMaterial.map = map;
               this.mainMaterial.needsUpdate = true;
             } else if (child.name === template.planeName) {
               toRemove = child;
