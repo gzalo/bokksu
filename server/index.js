@@ -7,7 +7,7 @@ const path = require('path');
 
 const app = express();
 
-mongoose.connect('mongodb://localhost:27017/bokksu', {
+mongoose.connect('mongodb://localhost:27017/bokksu_envase', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -35,8 +35,8 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-app.listen(3000, () => {
-  console.log('Listening at :3000...');
+app.listen(3001, () => {
+  console.log('Listening at :3001...');
 });
 
 app.get('/api/submissions/:id', (request, response) => {

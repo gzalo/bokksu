@@ -4,7 +4,7 @@
       <div class="menu-left-inner p-4">
         <div class="d-flex flex-column justify-content-between fill">
           <div>
-            <a href="/"><img class="logo-catedra mb-2" src="/img/Logo-Belluccia-150x150.png" alt=""/></a>
+            <a href="/"><img class="logo-catedra" src="/img/Logo-Belluccia-150x150.png" alt=""/></a>
 
             <!-- <h1>Bokksu</h1> -->
             <!-- <hr class="pb-4" /> -->
@@ -22,7 +22,7 @@
                 <a :href="'/img/templates/' + templates.find((template) => template.id == form.theme).download" target="_blank"> <img src="/img/iconos-download@3x.png" class="mr-2" style="height:16px; width:16px;" alt="Ícono de descargar" />Descargar</a>
               </div>
 
-              <h4 class="estilo-label">Seleccioná comisión y completá tus datos</h4>
+              <h4 class="estilo-label">Seleccioná comisión, completá tus datos</h4>
               <div class="form-group mb-3">
                 <!-- <label for="exampleFormControlSelect1">Seleccioná tu comisión</label> -->
                 <select class="form-control" id="exampleFormControlSelect1" v-model="form.commission">
@@ -39,9 +39,9 @@
               <h4 class="estilo-label">Subí tu entrega</h4>
               <div class="form-group form-entrega">
                 <!-- <h5>Subí tu entrega</h5> -->
-                <h6>Resolución: <strong>4096 x 4096px</strong> <br /><strong>JPG</strong> de alta calidad<br />Peso menor a <strong>8MB</strong></h6>
+                <h6>Resolución: <strong>4096 x 4096px</strong>. <br /><strong>JPG</strong> de alta calidad. <br />Peso menor a <strong>5MB</strong>.</h6>
                 <!-- <label for="exampleFormControlFile1">Subí tu entrega</label> -->
-                <div class="file-upload-edited pb-2">
+                <div class="file-upload-edited">
                   <input type="file" class="file-upload" @change="updateTexture" ref="file" />
                   <button class="file-upload-btn cursor-pointer">Seleccionar archivo</button>
                   <br /><span class="file-name">{{ fileName }}</span>
@@ -105,6 +105,40 @@
       {{ form.firstName }} {{ form.lastName }} <br />
       Comisión: {{ commissions.find((commission) => commission.id == form.commission).name }} <br />
     </div>
+
+    <div class="help">
+      <table class="table table-borderless text-center mt-5">
+        <tbody>
+          <tr>
+            <td>
+              <img src="/img/iconos-rotacion-03.png" class="" alt="Rotación con click izquierdo" />
+            </td>
+            <td>
+              <img src="/img/iconos-zoom-02.png" class="" alt="Zoom con la ruedita" />
+            </td>
+            <td>
+              <img src="/img/iconos-camara-04.png" class="" alt="Cámara con click derecho" />
+            </td>
+          </tr>
+
+          <tr>
+            <td class="tabla-subtitulo">Rotación</td>
+            <td class="tabla-subtitulo">Zoom</td>
+            <td class="tabla-subtitulo">Cámara</td>
+          </tr>
+
+          <tr>
+            <th class="tabla-instrucciones" scope="col">
+              Click izquierdo
+            </th>
+            <th class="tabla-instrucciones" scope="col">Ruedita</th>
+            <th class="tabla-instrucciones" scope="col">
+              Click derecho
+            </th>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
@@ -118,7 +152,7 @@ import commissions from '../commissions';
 
 const backgroundColor = new THREE.Color('rgb(93%, 93%, 93%)');
 const noFilesSelected = 'Ningún archivo seleccionado';
-const maxFileSize = 15 * 1024 * 1024;
+const maxFileSize = 8 * 1024 * 1024;
 
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-param-reassign */
@@ -156,14 +190,24 @@ export default {
       this.renderer.setSize(window.innerWidth, window.innerHeight);
       document.body.appendChild(this.renderer.domElement);
 
-      this.scene = this.loadScene();
-
-      this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 1000);
-
+      this.camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.01, 1000);
       this.controls = new OrbitControls(this.camera, this.renderer.domElement);
       this.controls.enableDamping = true;
-      this.controls.target = new THREE.Vector3(0, 1, 0);
-      this.camera.position.set(1.773, 1.2, 1.99);
+
+      this.scene = this.loadScene();
+
+      // 1 (spag)
+      // this.controls.target = new THREE.Vector3(0, 0.2, 0);
+      // this.camera.position.set(3, 1.2, 3);
+      // 2 (spag vert)
+      // this.controls.target = new THREE.Vector3(0, 1.3, 0);
+      // this.camera.position.set(1.773 * 1, 2, 1.99 * 3);
+      // 3 (pizza)
+      // this.controls.target = new THREE.Vector3(0, 1, 0);
+      // this.camera.position.set(1.773 * 1.5, 2.5, 1.99 * 2.5);
+      // 4 (tostadas)
+      // this.controls.target = new THREE.Vector3(0, 0.7, 0);
+      // this.camera.position.set(1.773 * 1.2, 1.2 * 2, 1.99 * 2.3);
 
       this.controls.update();
     },
@@ -182,7 +226,7 @@ export default {
 
       console.log(this.file);
       if (this.file.size > maxFileSize) {
-        this.submitErrors = 'Tu archivo debe pesar menos de 15 MB.';
+        this.submitErrors = 'Tu archivo debe pesar menos de 8 MB.';
       } else {
         this.submitErrors = '';
       }
@@ -242,11 +286,12 @@ export default {
       loader.load(`img/fbx/${template.model}`, (object) => {
         object.traverse((child) => {
           if (child.isMesh) {
+            console.log(child.name);
+
             child.geometry.attributes.uv2 = child.geometry.attributes.uv;
             // child.material.emissiveMap.anisotropy = 16;
             child.material.map.anisotropy = 16;
 
-            console.log(child.name);
             // child.material.color = new THREE.Color('rgb(100%, 100%, 100%)');
             if (child.name === template.objectName) {
               child.material = new THREE.MeshPhongMaterial({
@@ -282,6 +327,12 @@ export default {
         object.scale.multiplyScalar(0.1);
         scene.add(object);
       });
+
+      const { cameraData } = template;
+      this.controls.target = new THREE.Vector3(cameraData[0], cameraData[1], cameraData[2]);
+      this.camera.position.set(cameraData[3], cameraData[4], cameraData[5]);
+      this.controls.update();
+
       return scene;
     },
     changeObject() {
@@ -317,6 +368,8 @@ body,
 html {
   margin: 0;
   padding: 0;
+  font-family: 'Roboto', sans-serif;
+  letter-spacing: 0.4px;
 }
 canvas {
   position: absolute;
@@ -340,6 +393,7 @@ a {
   font-weight: 500;
   /* color: #009688; */
   /* text-decoration: underline; */
+  font-size: 0.95rem;
 }
 
 .menu-left {
@@ -362,13 +416,13 @@ a {
   font-size: 11px;
   font-weight: 400;
   line-height: 1.3;
-  color: rgb(170, 170, 170);
+  color: rgb(102, 102, 102);
 }
 
 .tabla-subtitulo {
-  color: rgb(112, 112, 112);
+  color: rgb(80, 80, 80);
   text-transform: uppercase;
-  letter-spacing: 1.5px;
+  /* letter-spacing: 1.5px; */
   font-size: 10px;
   font-weight: 500;
   line-height: 1.2;
@@ -377,7 +431,7 @@ a {
 table img {
   width: 28px;
   height: 28px;
-  opacity: 0.4;
+  opacity: 0.8;
   margin-bottom: 0.5rem;
 }
 
@@ -388,7 +442,7 @@ table img {
 
 .table td,
 .table th {
-  padding: 0.15rem 0.2rem !important;
+  padding: 0.2rem 0.5rem !important;
 }
 
 h1 {
@@ -401,15 +455,15 @@ h5 {
   color: #696969;
   margin-bottom: 0.3rem;
   margin-top: 0.4rem;
-  letter-spacing: 0.3px;
+  /* letter-spacing: 0.3px; */
 }
 
 h6 {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 400;
   color: #7e7e7e;
   margin-bottom: 1.2rem;
-  letter-spacing: 0.3px;
+  /* letter-spacing: 0.3px; */
   line-height: 1.4;
 }
 
@@ -422,6 +476,14 @@ h6 {
   position: absolute;
   bottom: 20px;
   left: 360px;
+  font-size: 0.9rem;
+  color: #606186;
+}
+
+.help {
+  position: absolute;
+  bottom: 4px;
+  right: 40px;
   font-size: 0.9rem;
   color: #606186;
 }
@@ -442,7 +504,7 @@ h6 {
 }
 
 .file-upload-btn {
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: #ffffff;
   font-weight: 500;
   cursor: pointer !important;
@@ -458,25 +520,26 @@ h6 {
   padding: 0.35rem;
   width: 100%;
   border-radius: 5px;
-  letter-spacing: 0.5px;
+  /* letter-spacing: 0.5px; */
 }
 
 .file-name {
   color: grey;
   font-size: 80%;
-  letter-spacing: 0.8px;
+  /* letter-spacing: 0.8px; */
   margin-top: 1rem;
 }
 
 .btn-primary {
   font-weight: 500;
-  letter-spacing: 0.4px;
+  /* letter-spacing: 0.4px; */
   background: rgb(61, 61, 102);
   background: linear-gradient(160deg, rgba(61, 61, 102, 1) 0%, rgba(47, 47, 83, 1) 100%);
   /* background: rgb(94, 218, 189);
   background: linear-gradient(166deg, rgb(70, 190, 162) 0%, rgb(43, 143, 118) 100%); */
   border-color: transparent;
   margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .btn-primary.disabled,
@@ -490,7 +553,7 @@ label {
   text-transform: uppercase;
   font-size: 70%;
   font-weight: 400;
-  letter-spacing: 0.8px;
+  /* letter-spacing: 0.8px; */
   color: #606186;
 }
 
@@ -498,19 +561,20 @@ label {
   text-transform: uppercase;
   font-size: 66%;
   font-weight: 400;
-  letter-spacing: 0.6px;
+  letter-spacing: 0.8px;
   color: #606186;
-  margin-top: 40px;
+  margin-top: 36px;
   margin-bottom: 10px;
 }
 
 .form-control {
   font-weight: 500;
   color: rgb(59, 59, 66);
+  font-size: 0.95rem;
 }
 
 .form-entrega {
   border: 2px dashed #dfdfdf;
-  padding: 1.3rem;
+  padding: 1.1rem;
 }
 </style>

@@ -1,18 +1,14 @@
 export default [
   {
     id: 1,
-    name: 'Carla y Melina',
+    name: 'Edwin y Leonel',
   },
   {
     id: 2,
-    name: 'Lucía y Karina',
+    name: 'Natalia y Emilia',
   },
   {
     id: 3,
-    name: 'Axel y Juanma',
-  },
-  {
-    id: 4,
-    name: 'Silvia, Judith y Mili',
+    name: 'Susana y Romina',
   },
 ];
