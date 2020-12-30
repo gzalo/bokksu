@@ -100,7 +100,15 @@ export default {
       this.controls.target = new THREE.Vector3(cameraData[0], cameraData[1], cameraData[2]);
       this.camera.position.set(cameraData[3], cameraData[4], cameraData[5]);
       this.controls.update();
+
+      window.addEventListener('resize', this.onWindowResize, false);
     },
+    onWindowResize() {
+      this.camera.aspect = window.innerWidth / window.innerHeight;
+      this.camera.updateProjectionMatrix();
+      this.renderer.setSize(window.innerWidth, window.innerHeight);
+    },
+
     animate() {
       if (!this.renderer) {
         return;

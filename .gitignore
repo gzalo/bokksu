@@ -22,3 +22,5 @@ yarn-error.log*
 
 # Public uploads
 public/upload/
+#Electron-builder output
+/dist_electron

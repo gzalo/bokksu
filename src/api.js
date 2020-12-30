@@ -1,18 +1,30 @@
-import axios from 'axios';
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-unused-vars */
 
-const apiURL = '/api/';
+function fixData() {
+  const elements = require('../data/backups_envase/2020-11-14.json');
+
+  for (let i = 0; i < elements.length; i += 1) {
+    elements[i]._id = elements[i]._id.$oid;
+    elements[i].date = elements[i].date.$date;
+  }
+  return elements;
+}
 
 export default {
-  store: (formData) => {
-    axios.post(`${apiURL}submissions`, formData).then((data) => console.log(data.data));
+  store: (_formData) => {
+    // eslint-disable-next-line no-alert
+    alert('El guardado ha sido desactivado');
   },
 
-  getAll: () => axios.get(`${apiURL}submissions`),
+  getAll: async () => ({ data: fixData() }),
 
-  getId: (id) => axios.get(`${apiURL}submissions/${id}`),
+  // eslint-disable-next-line no-underscore-dangle
+  getId: async (id) => ({ data: fixData().find((x) => x._id === id) }),
 
-  storeFile: (formData) =>
-    axios.post(`${apiURL}submissions`, formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    }),
+  storeFile: (_formData) => {
+    // eslint-disable-next-line no-alert
+    alert('El guardado ha sido desactivado');
+  },
 };

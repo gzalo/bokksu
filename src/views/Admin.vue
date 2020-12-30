@@ -153,7 +153,7 @@ export default {
       const id = row.getIndex();
       // this.$router.push({ name: 'view', params: { id } });
       const routeData = this.$router.resolve({ name: 'view', params: { id } });
-      window.open(routeData.href, '_blank');
+      window.open(routeData.href);
     },
   },
 };

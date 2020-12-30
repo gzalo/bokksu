@@ -9,15 +9,15 @@ import Multiview from './views/Multiview.vue';
 Vue.use(Router);
 
 export default new Router({
-  mode: 'history',
+  // mode: 'history',
   routes: [
     {
-      path: '/',
-      name: 'home',
+      path: '/upload',
+      name: 'upload',
       component: Home,
     },
     {
-      path: '/admin',
+      path: '/',
       name: 'admin',
       component: Admin,
     },

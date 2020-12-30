@@ -1,5 +1,17 @@
 module.exports = {
+  publicPath: '',
   pluginOptions: {
+    electronBuilder: {
+      builderOptions: {
+        win: {
+          target: [
+            {
+              target: 'portable',
+            },
+          ],
+        },
+      },
+    },
     i18n: {
       locale: 'es',
       fallbackLocale: 'es',
