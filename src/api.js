@@ -3,9 +3,9 @@
 /* eslint-disable no-unused-vars */
 
 function fixData() {
-  const allElements = require('../data/backups_envase/2020-11-14.json');
+  const allElements = require('../data/backups/2020-11-14.json');
 
-  const elements = allElements.slice(-64); // Keep last 64 submissions
+  const elements = allElements.slice(-175 - 6); // Keep last 64 submissions
 
   for (let i = 0; i < elements.length; i += 1) {
     elements[i]._id = elements[i]._id.$oid;
