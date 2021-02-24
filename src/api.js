@@ -3,11 +3,14 @@
 /* eslint-disable no-unused-vars */
 
 function fixData() {
-  const elements = require('../data/backups_envase/2020-11-14.json');
+  const allElements = require('../data/backups_envase/2020-11-14.json');
+
+  const elements = allElements.slice(-64); // Keep last 64 submissions
 
   for (let i = 0; i < elements.length; i += 1) {
     elements[i]._id = elements[i]._id.$oid;
     elements[i].date = elements[i].date.$date;
+    // console.log(`copy ${elements[i].fileName} C:\\Users\\Gzalo\\Desktop\\github\\bokksu\\public\\upload\\`);
   }
   return elements;
 }
