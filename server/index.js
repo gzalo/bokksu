@@ -7,7 +7,7 @@ const path = require('path');
 
 const app = express();
 
-mongoose.connect('mongodb://localhost:27017/bokksu_envase', {
+mongoose.connect('mongodb://localhost:27017/bokksu', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -23,10 +23,11 @@ const Submission = mongoose.model('Submission', {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
+app.use(express.static('./public'));
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
-    cb(null, '../public/upload');
+    cb(null, './public/uploads');
   },
   filename(req, file, cb) {
     cb(null, Date.now() + path.extname(file.originalname));
@@ -35,8 +36,8 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-app.listen(3001, () => {
-  console.log('Listening at :3001...');
+app.listen(80, () => {
+  console.log('Listening at :80...');
 });
 
 app.get('/api/submissions/:id', (request, response) => {
@@ -70,7 +71,7 @@ app.post('/api/submissions', upload.single('file'), (req, resp) => {
     theme: data.theme,
     firstName: data.firstName,
     lastName: data.lastName,
-    fileName: `/upload/${req.file.filename}`,
+    fileName: `http://api.bokksu.gzalo.com/uploads/${req.file.filename}`,
   });
 
   console.log(req.file);
