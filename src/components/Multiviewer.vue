@@ -103,7 +103,7 @@ export default {
                 });
 
                 this.mainMaterial = child.material;
-                const url = `/upload/${this.data[i].fileName}`;
+                const url = `${this.data[i].fileName}`;
 
                 const map = new THREE.TextureLoader().setCrossOrigin('').load(url);
                 map.anisotropy = 16;

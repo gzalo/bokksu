@@ -1,12 +1,8 @@
 import axios from 'axios';
 
-const apiURL = '/api/';
+const apiURL = process.env.VUE_APP_BASE_API_PATH;
 
 export default {
-  store: (formData) => {
-    axios.post(`${apiURL}submissions`, formData).then((data) => console.log(data.data));
-  },
-
   getAll: () => axios.get(`${apiURL}submissions`),
 
   getId: (id) => axios.get(`${apiURL}submissions/${id}`),

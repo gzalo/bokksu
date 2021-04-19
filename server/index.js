@@ -70,7 +70,7 @@ app.post('/api/submissions', upload.single('file'), (req, resp) => {
     theme: data.theme,
     firstName: data.firstName,
     lastName: data.lastName,
-    fileName: req.file.filename,
+    fileName: `/upload/${req.file.filename}`,
   });
 
   console.log(req.file);

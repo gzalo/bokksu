@@ -224,7 +224,6 @@ export default {
       const userImage = evt.target.files[0];
       this.file = userImage;
 
-      console.log(this.file);
       if (this.file.size > maxFileSize) {
         this.submitErrors = 'Tu archivo debe pesar menos de 8 MB.';
       } else {
@@ -286,8 +285,6 @@ export default {
       loader.load(`img/fbx/${template.model}`, (object) => {
         object.traverse((child) => {
           if (child.isMesh) {
-            console.log(child.name);
-
             child.geometry.attributes.uv2 = child.geometry.attributes.uv;
             // child.material.emissiveMap.anisotropy = 16;
             child.material.map.anisotropy = 16;
