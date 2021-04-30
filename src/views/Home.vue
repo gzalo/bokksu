@@ -287,7 +287,11 @@ export default {
           if (child.isMesh) {
             child.geometry.attributes.uv2 = child.geometry.attributes.uv;
             // child.material.emissiveMap.anisotropy = 16;
-            child.material.map.anisotropy = 16;
+            if (child.material.map) {
+              child.material.map.anisotropy = 16;
+            }
+
+            console.log(child.name);
 
             // child.material.color = new THREE.Color('rgb(100%, 100%, 100%)');
             if (child.name === template.objectName) {
