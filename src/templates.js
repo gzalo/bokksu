@@ -8,7 +8,7 @@ export default [
     objectName: 'pizza_congelada_1',
     planeName: 'Plane_pizza_congelada_1',
     separation: 4,
-    cameraData: [0, 0.2, 0, 3, 1.2, 3],
+    cameraData: [0, 0, 0, 0, 6, 6],
   },
   {
     id: 2,
@@ -19,7 +19,7 @@ export default [
     objectName: '02_obj_cacao',
     planeName: '02_plane_cacao',
     separation: 1.8,
-    cameraData: [0, 1.3, 0, 1.773, 2, 6],
+    cameraData: [0, 0.9, 0, 1.773, 1, 3],
   },
   {
     id: 3,
@@ -30,7 +30,7 @@ export default [
     objectName: '03_obj_yougur',
     planeName: '03_plane_yogur',
     separation: 2,
-    cameraData: [0, 1, 0, 2.6595, 2.5, 4.975],
+    cameraData: [0, 1, 0, 2.1276, 3, 4],
   },
   {
     id: 4,
@@ -52,7 +52,7 @@ export default [
     objectName: '05_obj_te',
     planeName: '05_plane_te_1',
     separation: 2.5,
-    cameraData: [0, 0.7, 0, 2.1276, 2.4, 4.577],
+    cameraData: [0, 0.7, 0, 1.48932, 1.68, 3.2039],
   },
   {
     id: 6,

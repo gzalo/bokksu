@@ -31,25 +31,29 @@ for (let i = 0; i < templates.length; i += 1) {
 
 const dateValues = {
   '': 'Todos',
-  0: 'Jueves 15',
-  1: 'Jueves 22',
-  2: 'Preentrega',
-  3: 'Entrega Final',
+  0: 'Preentrega',
+  1: 'Jueves 6',
+  2: 'Lunes 10',
+  3: 'Jueves 13',
+  4: 'Entrega Final',
   9: 'Otra clase',
 };
 
 const getClase = (date) => {
-  if (date.isBefore('2020-10-16T03:00:00Z')) {
+  if (date.isBefore('2021-05-04T03:00:00Z')) {
     return 0;
   }
-  if (date.isBefore('2020-10-23T03:00:00Z')) {
+  if (date.isBefore('2021-05-07T03:00:00Z')) {
     return 1;
   }
-  if (date.isBefore('2020-10-30T03:00:00Z')) {
+  if (date.isBefore('2021-05-11T03:00:00Z')) {
     return 2;
   }
-  if (date.isBefore('2020-11-06T03:00:00Z')) {
+  if (date.isBefore('2021-05-14T03:00:00Z')) {
     return 3;
+  }
+  if (date.isBefore('2021-05-18T03:00:00Z')) {
+    return 4;
   }
   return 9;
 };
