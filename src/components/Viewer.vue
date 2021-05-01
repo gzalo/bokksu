@@ -56,7 +56,9 @@ export default {
         object.traverse((child) => {
           if (child.isMesh) {
             child.geometry.attributes.uv2 = child.geometry.attributes.uv;
-            child.material.map.anisotropy = 16;
+            if (child.material.map) {
+              child.material.map.anisotropy = 16;
+            }
 
             if (child.name === template.objectName) {
               child.material = new THREE.MeshPhongMaterial({
