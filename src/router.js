@@ -5,6 +5,7 @@ import Admin from './views/Admin.vue';
 import Admin2 from './views/Admin2.vue';
 import View from './views/View.vue';
 import Multiview from './views/Multiview.vue';
+import OldViewer from './views/OldViewer.vue';
 
 Vue.use(Router);
 
@@ -37,6 +38,11 @@ export default new Router({
       name: 'multiview',
       component: Multiview,
       props: true,
+    },
+    {
+      path: '/oldviewer',
+      name: 'oldviewer',
+      component: OldViewer,
     },
   ],
 });
