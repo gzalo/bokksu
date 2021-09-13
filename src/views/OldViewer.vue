@@ -6,11 +6,8 @@
           <div>
             <a href="/"><img class="logo-catedra" src="/img/Logo-Belluccia-150x150.png" alt=""/></a>
 
-            <!-- <h1>Bokksu</h1> -->
-            <!-- <hr class="pb-4" /> -->
-
             <form class="mt-5" v-if="!linkId">
-              <h4 class="estilo-label">Descargá la plantilla de tu tema</h4>
+              <h4 class="estilo-label">Elegí el tema</h4>
 
               <div class="form-group">
                 <select class="form-control" id="exampleFormControlSelect1" v-model="form.theme" @change="changeObject">
@@ -19,28 +16,12 @@
               </div>
 
               <div class="">
-                <a :href="'/img/templates/' + templates.find((template) => template.id == form.theme).download" target="_blank"> <img src="/img/iconos-download@3x.png" class="mr-2" style="height:16px; width:16px;" alt="Ícono de descargar" />Descargar</a>
+                <a :href="'/img/templates/' + templates.find((template) => template.id == form.theme).download" target="_blank"> <img src="/img/iconos-download@3x.png" class="mr-2" style="height:16px; width:16px;" alt="Ícono de descargar" />Descargar plantilla</a>
               </div>
 
-              <h4 class="estilo-label">Seleccioná comisión, completá tus datos</h4>
-              <div class="form-group mb-3">
-                <!-- <label for="exampleFormControlSelect1">Seleccioná tu comisión</label> -->
-                <select class="form-control" id="exampleFormControlSelect1" v-model="form.commission">
-                  <option v-for="commission in commissions" :key="commission.id" :value="commission.id">{{ commission.id }} | {{ commission.name }}</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <!-- <label for="exampleFormControlInput1">Completá tus datos</label> -->
-                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Nombre" v-model="form.firstName" />
-                <input type="email" class="form-control mt-2" id="exampleFormControlInput1" placeholder="Apellido" v-model="form.lastName" />
-              </div>
-
-              <h4 class="estilo-label">Subí tu entrega</h4>
+              <h4 class="estilo-label">Subí una entrega</h4>
               <div class="form-group form-entrega">
-                <!-- <h5>Subí tu entrega</h5> -->
                 <h6>Resolución: <strong>4096 x 4096px</strong>. <br /><strong>JPG</strong> de alta calidad. <br />Peso menor a <strong>5MB</strong>.</h6>
-                <!-- <label for="exampleFormControlFile1">Subí tu entrega</label> -->
                 <div class="file-upload-edited">
                   <input type="file" class="file-upload" @change="updateTexture" ref="file" />
                   <button class="file-upload-btn cursor-pointer">Seleccionar archivo</button>
@@ -48,65 +29,13 @@
                 </div>
               </div>
 
-              <span class="alert alert-danger small" v-if="submitErrors">{{ submitErrors }}</span>
-
-              <button type="submit" class="btn btn-primary btn-block" @click="submit" :disabled="submitDisabled || form.firstName.trim() == '' || form.lastName.trim() == '' || submitErrors != ''">
-                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="uploading"></span>
-                Guardar
-              </button>
             </form>
-            <!-- <button @click="view1()">Vista 1</button> -->
-
-            <div v-if="linkId">
-              <img src="/img/iconos-correctamente.png" class="img-correcta mt-4 mb-3" alt="Tu imagen se subió correctamente" />
-              <br />
-              Tu entrega se subió correctamente<br />
-              <router-link :to="{ name: 'view', params: { id: linkId } }">Podrás verla en este link</router-link>
-            </div>
-
-            <span class="oldviewer"><router-link to="/oldviewer">Visor de cuatrimestres anteriores</router-link></span>
-
           </div>
 
-          <!-- <div>
-            <table class="table table-borderless text-center mt-5">
-              <tbody>
-                <tr>
-                  <td>
-                    <img src="/img/iconos-rotacion-03.png" class="" alt="Rotación con click izquierdo" />
-                  </td>
-                  <td>
-                    <img src="/img/iconos-zoom-02.png" class="" alt="Zoom con la ruedita" />
-                  </td>
-                  <td>
-                    <img src="/img/iconos-camara-04.png" class="" alt="Cámara con click derecho" />
-                  </td>
-                </tr>
-
-                <tr>
-                  <td class="tabla-subtitulo">Rotación</td>
-                  <td class="tabla-subtitulo">Zoom</td>
-                  <td class="tabla-subtitulo">Cámara</td>
-                </tr>
-
-                <tr>
-                  <th class="tabla-instrucciones" scope="col">
-                    Click izquierdo
-                  </th>
-                  <th class="tabla-instrucciones" scope="col">Ruedita</th>
-                  <th class="tabla-instrucciones" scope="col">
-                    Click derecho
-                  </th>
-                </tr>
-              </tbody>
-            </table>
-          </div> -->
         </div>
       </div>
     </div>
     <div class="info">
-      {{ form.firstName }} {{ form.lastName }} <br />
-      Comisión: {{ commissions.find((commission) => commission.id == form.commission).name }} <br />
     </div>
 
     <div class="help">
@@ -150,7 +79,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
 import api from '../api';
-import templates from '../templates';
+import templates from '../templates_old';
 import commissions from '../commissions';
 
 const backgroundColor = new THREE.Color('rgb(93%, 93%, 93%)');
@@ -580,11 +509,5 @@ label {
 .form-entrega {
   border: 2px dashed #dfdfdf;
   padding: 1.1rem;
-}
-
-.oldviewer a {
-  font-size: 0.75rem;
-  font-weight: light;
-  color: rgb(150, 150, 150);
 }
 </style>
