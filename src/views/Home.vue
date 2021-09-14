@@ -64,7 +64,7 @@
               <router-link :to="{ name: 'view', params: { id: linkId } }">Podrás verla en este link</router-link>
             </div>
 
-            <span class="oldviewer"><router-link to="/oldviewer">Visor de cuatrimestres anteriores</router-link></span>
+            <!-- <span class="oldviewer"><router-link to="/oldviewer">Visor de cuatrimestres anteriores</router-link></span> -->
 
           </div>
 
