@@ -7,7 +7,7 @@ export default [
     download: '2021-01-magdalenas.png',
     objectName: '01_obj_magdalenas_1',
     planeName: '01_plane_magdalenas_1',
-    separation: 4,
+    separation: 2,
     cameraData: [0, 0.7, 0, 1.773, 2, 4],
   },
   {
@@ -18,7 +18,7 @@ export default [
     download: '2021-02-bocaditos.png',
     objectName: '02_obj_bocaditos',
     planeName: '02_plane_bocaditos',
-    separation: 1.8,
+    separation: 2.2,
     cameraData: [0, 0.8, 0, 1.773, 3, 4],
   },
   {
@@ -29,7 +29,7 @@ export default [
     download: '2021-03-papas.png',
     objectName: '03_obj_papas',
     planeName: '03_plane_papas',
-    separation: 2,
+    separation: 2.4,
     cameraData: [0, 0.8, 0, 2.1276, 3, 4],
   },
 ];
