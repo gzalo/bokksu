@@ -4,10 +4,11 @@
       <a href="/"><img class="logo-catedra my-4" src="/img/Logo-Belluccia-150x150.png" alt=""/></a>
       <h2>Previsualización múltiple</h2>
 
-      <p id="contador"></p>
+      <p id="contador" class="light-text"></p>
       <p><a href="#" @click="multiview()">Visualizar entregas seleccionadas</a></p>
       <VueTabulator v-model="submissions" :options="options" @row-dbl-click="rowDblClick" ref="tabulator" />
       <p class="pt-3"><a href="#" @click="multiview()">Visualizar entregas seleccionadas</a></p>
+      <footer class="light-text">Cada usuario mantiene los derechos de autor de cada archivo subido. <br>Los mismos son propiedad de cada usuario, y no podrán ser utilizados de ninguna forma excepto teniendo un permiso explícito del autor.</footer>
     </div>
   </div>
 </template>
@@ -286,7 +287,7 @@ body {
   position: initial !important;
 }
 
-#contador {
+.light-text {
   font-size: 0.9rem;
   margin-top: 1rem;
   color: rgba(255, 255, 255, 0.753);

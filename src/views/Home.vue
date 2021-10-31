@@ -56,6 +56,10 @@
               <router-link :to="{ name: 'view', params: { id: linkId } }">Podrás verla en este link</router-link>
             </div>
 
+            <div>
+              <span class="oldviewer"><a href="/oldviewer">Cuatrimestres anteriores</a><br><a href="/admin">Visor de entregas</a> | <a href="/admin2">Visor múltiple</a></span>
+            </div>
+
           </div>
 
         </div>
