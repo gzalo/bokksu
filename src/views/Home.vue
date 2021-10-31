@@ -5,7 +5,7 @@
         <div class="d-flex flex-column justify-content-between fill">
           <div>
             <div class="d-flex justify-content-between">
-              <a href="/"><img class="logo-catedra" src="/img/Logo-Belluccia-150x150.png" alt=""/></a>
+              <a href="/"><img class="logo-catedra" src="/img/logo.svg" alt=""/></a>
               <span>
                 <a href="#" @click.prevent="changeEn" :class="{ langActive: $i18n.locale == 'en' }">EN</a> |
                 <a href="#" @click.prevent="changeEs" :class="{ langActive: $i18n.locale == 'es' }">ES</a>

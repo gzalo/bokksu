@@ -3,7 +3,9 @@
 
 Interactive system that can be used to display 3d packages. 
 
-[A demo can be found here](https://packaging.gzalo.com/). 
+[A working demo can be found here](https://packaging.gzalo.com/). 
+
+![Screenshot](docs/screenshot0.png)
 
 Used for academic purposes (displaying work of students during the pandemic):
 - [Cátedra Belluccia](http://catedrabelluccia.com.ar/) in [FADU, Universidad de Buenos Aires](http://www.fadu.uba.ar/)

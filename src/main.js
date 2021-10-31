@@ -76,7 +76,7 @@ const messages = {
     correctlyUploaded: 'Your work was uploaded successfully',
     viewLink: 'You can view it here',
     olderTerms: 'Previous quarters',
-    viewer: 'Submission viewer',
+    viewer: 'Bokksu - 3d package viewer',
     multipleViewer: 'Multi-viewer',
     commission: 'Class',
     leftClick: 'Left click',

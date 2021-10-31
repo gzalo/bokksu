@@ -4,7 +4,7 @@
       <div class="menu-left-inner p-4">
         <div class="d-flex flex-column justify-content-between fill">
           <div>
-            <a href="/"><img class="logo-catedra" src="/img/Logo-Belluccia-150x150.png" alt=""/></a>
+            <a href="/"><img class="logo-catedra" src="/img/logo.svg" alt=""/></a>
 
             <form class="mt-5" v-if="!linkId">
               <h4 class="estilo-label">{{ $t('selectTheme') }}</h4>
