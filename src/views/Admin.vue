@@ -2,9 +2,10 @@
   <div class="fondo mb-5">
     <div class="container">
       <a href="/"><img class="logo-catedra my-4" src="/img/Logo-Belluccia-150x150.png" alt=""/></a>
-      <h2>Administración de entregas</h2>
-      <p id="contador"></p>
+      <h2>{{ $t('adminTitle') }}</h2>
+      <p id="contador" class="light-text"></p>
       <VueTabulator v-model="submissions" :options="options" @row-click="rowClick" />
+      <footer class="light-text">{{ $t('terms1') }}<br />{{ $t('terms2') }}</footer>
     </div>
   </div>
 </template>
@@ -76,8 +77,14 @@ const customDateFilter = (headerValue, rowValue, rowData, filterParams) => {
   return clase === parseInt(headerValue, 10);
 };
 
+/* eslint-disable func-names */
+/* eslint-disable space-before-function-paren */
+
 export default {
-  data() {
+  // eslint-disable-next-line object-shorthand
+  data: function() {
+    const submissionText = this.$t('submission');
+    const submissionsText = this.$t('submissions');
     return {
       submissions: [],
       options: {
@@ -93,23 +100,23 @@ export default {
         layout: 'fitColumns',
         dataFiltered(filters, rows) {
           const rowNumber = rows.length;
-          document.querySelector('#contador').innerHTML = rowNumber + (rowNumber === 1 ? ' entrega' : ' entregas');
+          document.querySelector('#contador').innerHTML = `${rowNumber} ${rowNumber === 1 ? submissionText : submissionsText}`;
         },
         columns: [
           {
-            title: 'Nombre',
+            title: this.$t('firstName'),
             field: 'firstName',
             sorter: 'string',
             editor: false,
           },
           {
-            title: 'Apellido',
+            title: this.$t('lastName'),
             field: 'lastName',
             sorter: 'string',
             editor: false,
           },
           {
-            title: 'Comisión',
+            title: this.$t('commission'),
             field: 'commission',
             sorter: 'string',
             width: 200,
@@ -120,7 +127,7 @@ export default {
             },
           },
           {
-            title: 'Tema',
+            title: this.$t('theme'),
             field: 'theme',
             sorter: 'string',
             headerFilter: 'select',
@@ -130,7 +137,7 @@ export default {
             },
           },
           {
-            title: 'Fecha de subida',
+            title: this.$t('uploadDate'),
             field: 'date',
             sorter: 'datetime',
             formatter: customDateTimeFormatter,
@@ -155,7 +162,6 @@ export default {
   methods: {
     rowClick(e, row) {
       const id = row.getIndex();
-      // this.$router.push({ name: 'view', params: { id } });
       const routeData = this.$router.resolve({ name: 'view', params: { id } });
       window.open(routeData.href, '_blank');
     },
@@ -252,7 +258,7 @@ body {
   position: initial !important;
 }
 
-#contador {
+.light-text {
   font-size: 0.9rem;
   margin-top: 1rem;
   color: rgba(255, 255, 255, 0.753);
@@ -282,9 +288,6 @@ body {
 }
 
 .date-2 {
-  /* background-color: rgba(218, 61, 147, 0);
-  border: 2px solid rgba(249, 252, 64, 0.473);
-  color: rgb(252, 224, 64); */
   background-color: rgba(218, 61, 147, 0);
   border: 2px solid rgba(252, 133, 64, 0.473);
   color: rgb(230, 121, 59);

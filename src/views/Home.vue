@@ -4,46 +4,44 @@
       <div class="menu-left-inner p-4">
         <div class="d-flex flex-column justify-content-between fill">
           <div>
-            <a href="/"><img class="logo-catedra" src="/img/Logo-Belluccia-150x150.png" alt=""/></a>
-
-            <!-- <h1>Bokksu</h1> -->
-            <!-- <hr class="pb-4" /> -->
-
+            <div class="d-flex justify-content-between">
+              <a href="/"><img class="logo-catedra" src="/img/Logo-Belluccia-150x150.png" alt=""/></a>
+              <span>
+                <a href="#" @click.prevent="changeEn" :class="{ langActive: $i18n.locale == 'en' }">EN</a> |
+                <a href="#" @click.prevent="changeEs" :class="{ langActive: $i18n.locale == 'es' }">ES</a>
+              </span>
+            </div>
             <form class="mt-5" v-if="!linkId">
-              <h4 class="estilo-label">Descargá la plantilla de tu tema</h4>
+              <h4 class="estilo-label">{{ $t('downloadTemplate') }}</h4>
 
               <div class="form-group">
                 <select class="form-control" id="exampleFormControlSelect1" v-model="form.theme" @change="changeObject">
-                  <option v-for="template in templates" :key="template.id" :value="template.id">{{ template.name }}</option>
+                  <option v-for="template in templates" :key="template.id" :value="template.id">{{ $i18n.locale == 'en' ? template.nameEn : template.name }}</option>
                 </select>
               </div>
 
               <div class="">
-                <a :href="'/img/templates/' + templates.find((template) => template.id == form.theme).download" target="_blank"> <img src="/img/iconos-download@3x.png" class="mr-2" style="height:16px; width:16px;" alt="Ícono de descargar" />Descargar</a>
+                <a :href="'/img/templates/' + templates.find((template) => template.id == form.theme).download" target="_blank"> <img src="/img/iconos-download@3x.png" class="mr-2" style="height:16px; width:16px;" alt="Descargar" />{{ $t('download') }}</a>
               </div>
 
-              <h4 class="estilo-label">Seleccioná comisión, completá tus datos</h4>
+              <h4 class="estilo-label">{{ $t('selectCommission') }}</h4>
               <div class="form-group mb-3">
-                <!-- <label for="exampleFormControlSelect1">Seleccioná tu comisión</label> -->
                 <select class="form-control" id="exampleFormControlSelect1" v-model="form.commission">
                   <option v-for="commission in commissions" :key="commission.id" :value="commission.id">{{ commission.id }} | {{ commission.name }}</option>
                 </select>
               </div>
 
               <div class="form-group">
-                <!-- <label for="exampleFormControlInput1">Completá tus datos</label> -->
-                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Nombre" v-model="form.firstName" />
-                <input type="email" class="form-control mt-2" id="exampleFormControlInput1" placeholder="Apellido" v-model="form.lastName" />
+                <input type="email" class="form-control" id="exampleFormControlInput1" :placeholder="$t('firstName')" v-model="form.firstName" />
+                <input type="email" class="form-control mt-2" id="exampleFormControlInput1" :placeholder="$t('lastName')" v-model="form.lastName" />
               </div>
 
-              <h4 class="estilo-label">Subí tu entrega</h4>
+              <h4 class="estilo-label">{{ $t('uploadYourSubmission') }}</h4>
               <div class="form-group form-entrega">
-                <!-- <h5>Subí tu entrega</h5> -->
-                <h6>Resolución: <strong>4096 x 4096px</strong>. <br /><strong>JPG</strong> de alta calidad. <br />Peso menor a <strong>5MB</strong>.</h6>
-                <!-- <label for="exampleFormControlFile1">Subí tu entrega</label> -->
+                <h6>{{ $t('resolution') }}: <strong>4096 x 4096px</strong>. <br /><strong>JPG</strong> {{ $t('highQuality') }}. <br />{{ $t('weightLessThan') }} <strong>5MB</strong>.</h6>
                 <div class="file-upload-edited">
                   <input type="file" class="file-upload" @change="updateTexture" ref="file" />
-                  <button class="file-upload-btn cursor-pointer">Seleccionar archivo</button>
+                  <button class="file-upload-btn cursor-pointer">{{ $t('selectFile') }}</button>
                   <br /><span class="file-name">{{ fileName }}</span>
                 </div>
               </div>
@@ -52,61 +50,29 @@
 
               <button type="submit" class="btn btn-primary btn-block" @click="submit" :disabled="submitDisabled || form.firstName.trim() == '' || form.lastName.trim() == '' || submitErrors != ''">
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="uploading"></span>
-                Guardar
+                {{ $t('upload') }}
               </button>
             </form>
-            <!-- <button @click="view1()">Vista 1</button> -->
 
             <div v-if="linkId">
-              <img src="/img/iconos-correctamente.png" class="img-correcta mt-4 mb-3" alt="Tu imagen se subió correctamente" />
+              <img src="/img/iconos-correctamente.png" class="img-correcta mt-4 mb-3" alt="Image" />
               <br />
-              Tu entrega se subió correctamente<br />
-              <router-link :to="{ name: 'view', params: { id: linkId } }">Podrás verla en este link</router-link>
+              {{ $t('correctlyUploaded') }}<br />
+              <router-link :to="{ name: 'view', params: { id: linkId } }">{{ $t('viewLink') }}</router-link>
             </div>
 
-            <!-- <span class="oldviewer"><router-link to="/oldviewer">Visor de cuatrimestres anteriores</router-link></span> -->
-
+            <div>
+              <span class="oldviewer"
+                ><a href="/admin">{{ $t('viewer') }}</a></span
+              >
+            </div>
           </div>
-
-          <!-- <div>
-            <table class="table table-borderless text-center mt-5">
-              <tbody>
-                <tr>
-                  <td>
-                    <img src="/img/iconos-rotacion-03.png" class="" alt="Rotación con click izquierdo" />
-                  </td>
-                  <td>
-                    <img src="/img/iconos-zoom-02.png" class="" alt="Zoom con la ruedita" />
-                  </td>
-                  <td>
-                    <img src="/img/iconos-camara-04.png" class="" alt="Cámara con click derecho" />
-                  </td>
-                </tr>
-
-                <tr>
-                  <td class="tabla-subtitulo">Rotación</td>
-                  <td class="tabla-subtitulo">Zoom</td>
-                  <td class="tabla-subtitulo">Cámara</td>
-                </tr>
-
-                <tr>
-                  <th class="tabla-instrucciones" scope="col">
-                    Click izquierdo
-                  </th>
-                  <th class="tabla-instrucciones" scope="col">Ruedita</th>
-                  <th class="tabla-instrucciones" scope="col">
-                    Click derecho
-                  </th>
-                </tr>
-              </tbody>
-            </table>
-          </div> -->
         </div>
       </div>
     </div>
     <div class="info">
       {{ form.firstName }} {{ form.lastName }} <br />
-      Comisión: {{ commissions.find((commission) => commission.id == form.commission).name }} <br />
+      {{ $t('commission') }}: {{ commissions.find((commission) => commission.id == form.commission).name }} <br />
     </div>
 
     <div class="help">
@@ -125,18 +91,18 @@
           </tr>
 
           <tr>
-            <td class="tabla-subtitulo">Rotación</td>
-            <td class="tabla-subtitulo">Zoom</td>
-            <td class="tabla-subtitulo">Cámara</td>
+            <td class="tabla-subtitulo">{{ $t('rotation') }}</td>
+            <td class="tabla-subtitulo">{{ $t('zoom') }}</td>
+            <td class="tabla-subtitulo">{{ $t('camera') }}</td>
           </tr>
 
           <tr>
             <th class="tabla-instrucciones" scope="col">
-              Click izquierdo
+              {{ $t('leftClick') }}
             </th>
-            <th class="tabla-instrucciones" scope="col">Ruedita</th>
+            <th class="tabla-instrucciones" scope="col">{{ $t('mouseWheel') }}</th>
             <th class="tabla-instrucciones" scope="col">
-              Click derecho
+              {{ $t('rightWheel') }}
             </th>
           </tr>
         </tbody>
@@ -154,7 +120,6 @@ import templates from '../templates';
 import commissions from '../commissions';
 
 const backgroundColor = new THREE.Color('rgb(93%, 93%, 93%)');
-const noFilesSelected = 'Ningún archivo seleccionado';
 const maxFileSize = 8 * 1024 * 1024;
 
 /* eslint-disable no-underscore-dangle */
@@ -171,7 +136,7 @@ export default {
       materials: [],
       mainMaterial: null,
       file: null,
-      fileName: noFilesSelected,
+      fileName: this.$i18n.t('noFileSelected'),
       submitDisabled: true,
       linkId: '',
       submitErrors: '',
@@ -198,26 +163,8 @@ export default {
       this.controls.enableDamping = true;
 
       this.scene = this.loadScene();
-
-      // 1 (spag)
-      // this.controls.target = new THREE.Vector3(0, 0.2, 0);
-      // this.camera.position.set(3, 1.2, 3);
-      // 2 (spag vert)
-      // this.controls.target = new THREE.Vector3(0, 1.3, 0);
-      // this.camera.position.set(1.773 * 1, 2, 1.99 * 3);
-      // 3 (pizza)
-      // this.controls.target = new THREE.Vector3(0, 1, 0);
-      // this.camera.position.set(1.773 * 1.5, 2.5, 1.99 * 2.5);
-      // 4 (tostadas)
-      // this.controls.target = new THREE.Vector3(0, 0.7, 0);
-      // this.camera.position.set(1.773 * 1.2, 1.2 * 2, 1.99 * 2.3);
-
       this.controls.update();
     },
-    // view1() {
-    // this.camera.position.set(1.679273021934309, 0.9682618917220973, 2.330526311027965);
-    // this.camera.rotation.set(-0.1383621152798783, 0.7537824473994289, 0.09501719700633605);
-    // },
     animate() {
       requestAnimationFrame(this.animate);
       this.controls.update();
@@ -228,7 +175,7 @@ export default {
       this.file = userImage;
 
       if (this.file.size > maxFileSize) {
-        this.submitErrors = 'Tu archivo debe pesar menos de 8 MB.';
+        this.submitErrors = this.$i18n.t('weightLessThanError');
       } else {
         this.submitErrors = '';
       }
@@ -237,7 +184,7 @@ export default {
         this.fileName = userImage.name;
         this.submitDisabled = false;
       } else {
-        this.fileName = noFilesSelected;
+        this.fileName = this.$i18n.t('noFileSelected');
         this.submitDisabled = true;
         return;
       }
@@ -275,28 +222,18 @@ export default {
       const light = new THREE.AmbientLight(0xffffff);
       scene.add(light);
 
-      // const light2 = new THREE.DirectionalLight(0xffffff, 0.25);
-      // light2.position.set(0, 1, 1.5);
-      // this.scene.add(light2);
-
-      // const light3 = new THREE.DirectionalLight(0xffffff, 0.25);
-      // light3.position.set(0, 1, -1.5);
-      // this.scene.add(light3);
-
       const loader = new FBXLoader();
       const template = templates.find((temp) => temp.id === this.form.theme);
       loader.load(`img/fbx/${template.model}`, (object) => {
         object.traverse((child) => {
           if (child.isMesh) {
             child.geometry.attributes.uv2 = child.geometry.attributes.uv;
-            // child.material.emissiveMap.anisotropy = 16;
             if (child.material.map) {
               child.material.map.anisotropy = 16;
             }
 
             console.log(child.name);
 
-            // child.material.color = new THREE.Color('rgb(100%, 100%, 100%)');
             if (child.name === template.objectName) {
               child.material = new THREE.MeshPhongMaterial({
                 color: new THREE.Color('rgb(100%, 100%, 100%)'),
@@ -342,15 +279,20 @@ export default {
     changeObject() {
       this.scene = this.loadScene();
     },
+    changeEn() {
+      localStorage.setItem('lang', 'en');
+      this.$i18n.locale = 'en';
+    },
+    changeEs() {
+      localStorage.setItem('lang', 'es');
+      this.$i18n.locale = 'es';
+    },
   },
   mounted() {
     this.init();
     this.animate();
   },
-  destroyed() {
-    // this.renderer.forceContextLoss();
-    // this.renderer = null;
-  },
+  destroyed() {},
 };
 </script>
 
@@ -395,8 +337,6 @@ canvas:focus {
 a {
   color: #43438d;
   font-weight: 500;
-  /* color: #009688; */
-  /* text-decoration: underline; */
   font-size: 0.95rem;
 }
 
@@ -406,7 +346,6 @@ a {
   top: 0;
   bottom: 0;
   width: 320px;
-  /* background-color: white; */
   background: linear-gradient(86deg, rgba(254, 253, 253, 1) 30%, rgb(250, 250, 250) 100%);
   overflow: hidden;
 }
@@ -426,7 +365,6 @@ a {
 .tabla-subtitulo {
   color: rgb(80, 80, 80);
   text-transform: uppercase;
-  /* letter-spacing: 1.5px; */
   font-size: 10px;
   font-weight: 500;
   line-height: 1.2;
@@ -459,7 +397,6 @@ h5 {
   color: #696969;
   margin-bottom: 0.3rem;
   margin-top: 0.4rem;
-  /* letter-spacing: 0.3px; */
 }
 
 h6 {
@@ -467,7 +404,6 @@ h6 {
   font-weight: 400;
   color: #7e7e7e;
   margin-bottom: 1.2rem;
-  /* letter-spacing: 0.3px; */
   line-height: 1.4;
 }
 
@@ -518,29 +454,21 @@ h6 {
   color: #43438d;
   border: 2px solid rgba(56, 56, 120, 0.082);
 
-  /* background-color: rgba(94, 218, 189, 0.336);
-  color: rgb(19, 126, 101);
-  border: 1px solid rgba(19, 126, 101, 0.192); */
   padding: 0.35rem;
   width: 100%;
   border-radius: 5px;
-  /* letter-spacing: 0.5px; */
 }
 
 .file-name {
   color: grey;
   font-size: 80%;
-  /* letter-spacing: 0.8px; */
   margin-top: 1rem;
 }
 
 .btn-primary {
   font-weight: 500;
-  /* letter-spacing: 0.4px; */
   background: rgb(61, 61, 102);
   background: linear-gradient(160deg, rgba(61, 61, 102, 1) 0%, rgba(47, 47, 83, 1) 100%);
-  /* background: rgb(94, 218, 189);
-  background: linear-gradient(166deg, rgb(70, 190, 162) 0%, rgb(43, 143, 118) 100%); */
   border-color: transparent;
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
@@ -557,7 +485,6 @@ label {
   text-transform: uppercase;
   font-size: 70%;
   font-weight: 400;
-  /* letter-spacing: 0.8px; */
   color: #606186;
 }
 
@@ -586,5 +513,9 @@ label {
   font-size: 0.75rem;
   font-weight: light;
   color: rgb(150, 150, 150);
+}
+
+.langActive {
+  font-weight: bold;
 }
 </style>
