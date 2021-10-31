@@ -92,7 +92,7 @@ export default {
         langs: {
           es: {
             headerFilters: {
-              default: 'Filtrar...',
+              default: this.$i18n.locale === 'es' ? 'Filtrar...' : 'Filter...',
             },
           },
         },
@@ -133,7 +133,8 @@ export default {
             headerFilter: 'select',
             headerFilterParams: themeValues,
             formatter(cell) {
-              return templates.find((template) => template.id.toString() === cell.getValue()).name;
+              const tem = templates.find((template) => template.id.toString() === cell.getValue());
+              return this.$i18n.locale === 'es' ? tem.name : tem.nameEn;
             },
           },
           {
