@@ -7,7 +7,7 @@
             <a href="/"><img class="logo-catedra" src="/img/Logo-Belluccia-150x150.png" alt=""/></a>
 
             <form class="mt-5" v-if="!linkId">
-              <h4 class="estilo-label">Elegí el tema</h4>
+              <h4 class="estilo-label">{{ $t('selectTheme') }}</h4>
 
               <div class="form-group">
                 <select class="form-control" id="exampleFormControlSelect1" v-model="form.theme" @change="changeObject">
@@ -16,27 +16,24 @@
               </div>
 
               <div class="">
-                <a :href="'/img/templates/' + templates.find((template) => template.id == form.theme).download" target="_blank"> <img src="/img/iconos-download@3x.png" class="mr-2" style="height:16px; width:16px;" alt="Ícono de descargar" />Descargar plantilla</a>
+                <a :href="'/img/templates/' + templates.find((template) => template.id == form.theme).download" target="_blank"> <img src="/img/iconos-download@3x.png" class="mr-2" style="height:16px; width:16px;" />{{ $t('downloadTemplateShort') }}</a>
               </div>
 
-              <h4 class="estilo-label">Subí una entrega</h4>
+              <h4 class="estilo-label">{{ $t('uploadYourSubmissionShort') }}</h4>
               <div class="form-group form-entrega">
-                <h6>Resolución: <strong>4096 x 4096px</strong>. <br /><strong>JPG</strong> de alta calidad. <br />Peso menor a <strong>5MB</strong>.</h6>
+                <h6>{{ $t('resolution') }}: <strong>4096 x 4096px</strong>. <br /><strong>JPG</strong> {{ $t('highQuality') }}. <br />{{ $t('weightLessThan') }} <strong>5MB</strong>.</h6>
                 <div class="file-upload-edited">
                   <input type="file" class="file-upload" @change="updateTexture" ref="file" />
-                  <button class="file-upload-btn cursor-pointer">Seleccionar archivo</button>
+                  <button class="file-upload-btn cursor-pointer">{{ $t('selectFile') }}</button>
                   <br /><span class="file-name">{{ fileName }}</span>
                 </div>
               </div>
-
             </form>
           </div>
-
         </div>
       </div>
     </div>
-    <div class="info">
-    </div>
+    <div class="info"></div>
 
     <div class="help">
       <table class="table table-borderless text-center mt-5">
@@ -54,18 +51,18 @@
           </tr>
 
           <tr>
-            <td class="tabla-subtitulo">Rotación</td>
-            <td class="tabla-subtitulo">Zoom</td>
-            <td class="tabla-subtitulo">Cámara</td>
+            <td class="tabla-subtitulo">{{ $t('rotation') }}</td>
+            <td class="tabla-subtitulo">{{ $t('zoom') }}</td>
+            <td class="tabla-subtitulo">{{ $t('camera') }}</td>
           </tr>
 
           <tr>
             <th class="tabla-instrucciones" scope="col">
-              Click izquierdo
+              {{ $t('leftClick') }}
             </th>
-            <th class="tabla-instrucciones" scope="col">Ruedita</th>
+            <th class="tabla-instrucciones" scope="col">{{ $t('mouseWheel') }}</th>
             <th class="tabla-instrucciones" scope="col">
-              Click derecho
+              {{ $t('rightWheel') }}
             </th>
           </tr>
         </tbody>
@@ -83,8 +80,6 @@ import templates from '../templates_old';
 import commissions from '../commissions';
 
 const backgroundColor = new THREE.Color('rgb(93%, 93%, 93%)');
-const noFilesSelected = 'Ningún archivo seleccionado';
-const maxFileSize = 8 * 1024 * 1024;
 
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-param-reassign */
@@ -100,7 +95,7 @@ export default {
       materials: [],
       mainMaterial: null,
       file: null,
-      fileName: noFilesSelected,
+      fileName: this.$i18n.t('noFileSelected'),
       submitDisabled: true,
       linkId: '',
       submitErrors: '',
@@ -137,18 +132,13 @@ export default {
     updateTexture(evt) {
       const userImage = evt.target.files[0];
       this.file = userImage;
-
-      if (this.file.size > maxFileSize) {
-        this.submitErrors = 'Tu archivo debe pesar menos de 8 MB.';
-      } else {
-        this.submitErrors = '';
-      }
+      this.submitErrors = '';
 
       if (userImage) {
         this.fileName = userImage.name;
         this.submitDisabled = false;
       } else {
-        this.fileName = noFilesSelected;
+        this.fileName = this.$i18n.t('noFileSelected');
         this.submitDisabled = true;
         return;
       }
@@ -248,8 +238,7 @@ export default {
     this.init();
     this.animate();
   },
-  destroyed() {
-  },
+  destroyed() {},
 };
 </script>
 

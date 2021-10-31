@@ -2,10 +2,10 @@
   <div class="fondo mb-5">
     <div class="container">
       <a href="/"><img class="logo-catedra my-4" src="/img/Logo-Belluccia-150x150.png" alt=""/></a>
-      <h2>Administración de entregas</h2>
+      <h2>{{ $t('adminTitle') }}</h2>
       <p id="contador" class="light-text"></p>
       <VueTabulator v-model="submissions" :options="options" @row-click="rowClick" />
-      <footer class="light-text">Cada usuario mantiene los derechos de autor de cada archivo subido. <br>Los mismos son propiedad de cada usuario, y no podrán ser utilizados de ninguna forma excepto teniendo un permiso explícito del autor.</footer>
+      <footer class="light-text">{{ $t('terms1') }}<br />{{ $t('terms2') }}</footer>
     </div>
   </div>
 </template>
@@ -77,8 +77,14 @@ const customDateFilter = (headerValue, rowValue, rowData, filterParams) => {
   return clase === parseInt(headerValue, 10);
 };
 
+/* eslint-disable func-names */
+/* eslint-disable space-before-function-paren */
+
 export default {
-  data() {
+  // eslint-disable-next-line object-shorthand
+  data: function() {
+    const submissionText = this.$t('submission');
+    const submissionsText = this.$t('submissions');
     return {
       submissions: [],
       options: {
@@ -94,23 +100,23 @@ export default {
         layout: 'fitColumns',
         dataFiltered(filters, rows) {
           const rowNumber = rows.length;
-          document.querySelector('#contador').innerHTML = rowNumber + (rowNumber === 1 ? ' entrega' : ' entregas');
+          document.querySelector('#contador').innerHTML = `${rowNumber} ${rowNumber === 1 ? submissionText : submissionsText}`;
         },
         columns: [
           {
-            title: 'Nombre',
+            title: this.$t('firstName'),
             field: 'firstName',
             sorter: 'string',
             editor: false,
           },
           {
-            title: 'Apellido',
+            title: this.$t('lastName'),
             field: 'lastName',
             sorter: 'string',
             editor: false,
           },
           {
-            title: 'Comisión',
+            title: this.$t('commission'),
             field: 'commission',
             sorter: 'string',
             width: 200,
@@ -121,7 +127,7 @@ export default {
             },
           },
           {
-            title: 'Tema',
+            title: this.$t('theme'),
             field: 'theme',
             sorter: 'string',
             headerFilter: 'select',
@@ -131,7 +137,7 @@ export default {
             },
           },
           {
-            title: 'Fecha de subida',
+            title: this.$t('uploadDate'),
             field: 'date',
             sorter: 'datetime',
             formatter: customDateTimeFormatter,

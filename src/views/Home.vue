@@ -4,22 +4,27 @@
       <div class="menu-left-inner p-4">
         <div class="d-flex flex-column justify-content-between fill">
           <div>
-            <a href="/"><img class="logo-catedra" src="/img/Logo-Belluccia-150x150.png" alt=""/></a>
-
+            <div class="d-flex justify-content-between">
+              <a href="/"><img class="logo-catedra" src="/img/Logo-Belluccia-150x150.png" alt=""/></a>
+              <span>
+                <a href="#" @click.prevent="changeEn" :class="{ langActive: $i18n.locale == 'en' }">EN</a> |
+                <a href="#" @click.prevent="changeEs" :class="{ langActive: $i18n.locale == 'es' }">ES</a>
+              </span>
+            </div>
             <form class="mt-5" v-if="!linkId">
-              <h4 class="estilo-label">Descargá la plantilla de tu tema</h4>
+              <h4 class="estilo-label">{{ $t('downloadTemplate') }}</h4>
 
               <div class="form-group">
                 <select class="form-control" id="exampleFormControlSelect1" v-model="form.theme" @change="changeObject">
-                  <option v-for="template in templates" :key="template.id" :value="template.id">{{ template.name }}</option>
+                  <option v-for="template in templates" :key="template.id" :value="template.id">{{ $i18n.locale == 'en' ? template.nameEn : template.name }}</option>
                 </select>
               </div>
 
               <div class="">
-                <a :href="'/img/templates/' + templates.find((template) => template.id == form.theme).download" target="_blank"> <img src="/img/iconos-download@3x.png" class="mr-2" style="height:16px; width:16px;" alt="Ícono de descargar" />Descargar</a>
+                <a :href="'/img/templates/' + templates.find((template) => template.id == form.theme).download" target="_blank"> <img src="/img/iconos-download@3x.png" class="mr-2" style="height:16px; width:16px;" alt="Descargar" />{{ $t('download') }}</a>
               </div>
 
-              <h4 class="estilo-label">Seleccioná comisión, completá tus datos</h4>
+              <h4 class="estilo-label">{{ $t('selectCommission') }}</h4>
               <div class="form-group mb-3">
                 <select class="form-control" id="exampleFormControlSelect1" v-model="form.commission">
                   <option v-for="commission in commissions" :key="commission.id" :value="commission.id">{{ commission.id }} | {{ commission.name }}</option>
@@ -27,16 +32,16 @@
               </div>
 
               <div class="form-group">
-                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Nombre" v-model="form.firstName" />
-                <input type="email" class="form-control mt-2" id="exampleFormControlInput1" placeholder="Apellido" v-model="form.lastName" />
+                <input type="email" class="form-control" id="exampleFormControlInput1" :placeholder="$t('firstName')" v-model="form.firstName" />
+                <input type="email" class="form-control mt-2" id="exampleFormControlInput1" :placeholder="$t('lastName')" v-model="form.lastName" />
               </div>
 
-              <h4 class="estilo-label">Subí tu entrega</h4>
+              <h4 class="estilo-label">{{ $t('uploadYourSubmission') }}</h4>
               <div class="form-group form-entrega">
-                <h6>Resolución: <strong>4096 x 4096px</strong>. <br /><strong>JPG</strong> de alta calidad. <br />Peso menor a <strong>5MB</strong>.</h6>
+                <h6>{{ $t('resolution') }}: <strong>4096 x 4096px</strong>. <br /><strong>JPG</strong> {{ $t('highQuality') }}. <br />{{ $t('weightLessThan') }} <strong>5MB</strong>.</h6>
                 <div class="file-upload-edited">
                   <input type="file" class="file-upload" @change="updateTexture" ref="file" />
-                  <button class="file-upload-btn cursor-pointer">Seleccionar archivo</button>
+                  <button class="file-upload-btn cursor-pointer">{{ $t('selectFile') }}</button>
                   <br /><span class="file-name">{{ fileName }}</span>
                 </div>
               </div>
@@ -45,29 +50,29 @@
 
               <button type="submit" class="btn btn-primary btn-block" @click="submit" :disabled="submitDisabled || form.firstName.trim() == '' || form.lastName.trim() == '' || submitErrors != ''">
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="uploading"></span>
-                Guardar
+                {{ $t('upload') }}
               </button>
             </form>
 
             <div v-if="linkId">
-              <img src="/img/iconos-correctamente.png" class="img-correcta mt-4 mb-3" alt="Tu imagen se subió correctamente" />
+              <img src="/img/iconos-correctamente.png" class="img-correcta mt-4 mb-3" alt="Image" />
               <br />
-              Tu entrega se subió correctamente<br />
-              <router-link :to="{ name: 'view', params: { id: linkId } }">Podrás verla en este link</router-link>
+              {{ $t('correctlyUploaded') }}<br />
+              <router-link :to="{ name: 'view', params: { id: linkId } }">{{ $t('viewLink') }}</router-link>
             </div>
 
             <div>
-              <span class="oldviewer"><a href="/oldviewer">Cuatrimestres anteriores</a><br><a href="/admin">Visor de entregas</a> | <a href="/admin2">Visor múltiple</a></span>
+              <span class="oldviewer"
+                ><a href="/admin">{{ $t('viewer') }}</a></span
+              >
             </div>
-
           </div>
-
         </div>
       </div>
     </div>
     <div class="info">
       {{ form.firstName }} {{ form.lastName }} <br />
-      Comisión: {{ commissions.find((commission) => commission.id == form.commission).name }} <br />
+      {{ $t('commission') }}: {{ commissions.find((commission) => commission.id == form.commission).name }} <br />
     </div>
 
     <div class="help">
@@ -86,18 +91,18 @@
           </tr>
 
           <tr>
-            <td class="tabla-subtitulo">Rotación</td>
-            <td class="tabla-subtitulo">Zoom</td>
-            <td class="tabla-subtitulo">Cámara</td>
+            <td class="tabla-subtitulo">{{ $t('rotation') }}</td>
+            <td class="tabla-subtitulo">{{ $t('zoom') }}</td>
+            <td class="tabla-subtitulo">{{ $t('camera') }}</td>
           </tr>
 
           <tr>
             <th class="tabla-instrucciones" scope="col">
-              Click izquierdo
+              {{ $t('leftClick') }}
             </th>
-            <th class="tabla-instrucciones" scope="col">Ruedita</th>
+            <th class="tabla-instrucciones" scope="col">{{ $t('mouseWheel') }}</th>
             <th class="tabla-instrucciones" scope="col">
-              Click derecho
+              {{ $t('rightWheel') }}
             </th>
           </tr>
         </tbody>
@@ -115,7 +120,6 @@ import templates from '../templates';
 import commissions from '../commissions';
 
 const backgroundColor = new THREE.Color('rgb(93%, 93%, 93%)');
-const noFilesSelected = 'Ningún archivo seleccionado';
 const maxFileSize = 8 * 1024 * 1024;
 
 /* eslint-disable no-underscore-dangle */
@@ -132,7 +136,7 @@ export default {
       materials: [],
       mainMaterial: null,
       file: null,
-      fileName: noFilesSelected,
+      fileName: this.$i18n.t('noFileSelected'),
       submitDisabled: true,
       linkId: '',
       submitErrors: '',
@@ -171,7 +175,7 @@ export default {
       this.file = userImage;
 
       if (this.file.size > maxFileSize) {
-        this.submitErrors = 'Tu archivo debe pesar menos de 8 MB.';
+        this.submitErrors = this.$i18n.t('weightLessThanError');
       } else {
         this.submitErrors = '';
       }
@@ -180,7 +184,7 @@ export default {
         this.fileName = userImage.name;
         this.submitDisabled = false;
       } else {
-        this.fileName = noFilesSelected;
+        this.fileName = this.$i18n.t('noFileSelected');
         this.submitDisabled = true;
         return;
       }
@@ -275,13 +279,20 @@ export default {
     changeObject() {
       this.scene = this.loadScene();
     },
+    changeEn() {
+      localStorage.setItem('lang', 'en');
+      this.$i18n.locale = 'en';
+    },
+    changeEs() {
+      localStorage.setItem('lang', 'es');
+      this.$i18n.locale = 'es';
+    },
   },
   mounted() {
     this.init();
     this.animate();
   },
-  destroyed() {
-  },
+  destroyed() {},
 };
 </script>
 
@@ -502,5 +513,9 @@ label {
   font-size: 0.75rem;
   font-weight: light;
   color: rgb(150, 150, 150);
+}
+
+.langActive {
+  font-weight: bold;
 }
 </style>

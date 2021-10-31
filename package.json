@@ -18,6 +18,8 @@
     "tabulator-tables": "^4.7.1",
     "three": "^0.118.1",
     "vue": "^2.6.10",
+    "vue-i18n": "^8.26.5",
+    "vue-meta": "^2.4.0",
     "vue-router": "^3.0.3",
     "vue-tabulator": "^1.2.2",
     "vuex": "^3.0.1"
