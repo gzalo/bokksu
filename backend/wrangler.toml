@@ -1,11 +1,15 @@
 name = "bokksu-backend"
-type = "webpack"
-
-account_id = "d821c1c5e1a8582b220e39739ae92aa9"
-workers_dev = true
-route = ""
+type = "javascript"
 zone_id = ""
+account_id = "d821c1c5e1a8582b220e39739ae92aa9"
+route = ""
+workers_dev = true
 
 kv_namespaces = [ 
   { binding = "DATA", id = "03d32307823b449798c86fc7af630b96" }
 ]
+
+[build]
+command = "npm install && npm run build"
+[build.upload]
+format = "service-worker"
