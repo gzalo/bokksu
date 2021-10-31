@@ -127,26 +127,8 @@ export default {
       this.controls.enableDamping = true;
 
       this.scene = this.loadScene();
-
-      // 1 (spag)
-      // this.controls.target = new THREE.Vector3(0, 0.2, 0);
-      // this.camera.position.set(3, 1.2, 3);
-      // 2 (spag vert)
-      // this.controls.target = new THREE.Vector3(0, 1.3, 0);
-      // this.camera.position.set(1.773 * 1, 2, 1.99 * 3);
-      // 3 (pizza)
-      // this.controls.target = new THREE.Vector3(0, 1, 0);
-      // this.camera.position.set(1.773 * 1.5, 2.5, 1.99 * 2.5);
-      // 4 (tostadas)
-      // this.controls.target = new THREE.Vector3(0, 0.7, 0);
-      // this.camera.position.set(1.773 * 1.2, 1.2 * 2, 1.99 * 2.3);
-
       this.controls.update();
     },
-    // view1() {
-    // this.camera.position.set(1.679273021934309, 0.9682618917220973, 2.330526311027965);
-    // this.camera.rotation.set(-0.1383621152798783, 0.7537824473994289, 0.09501719700633605);
-    // },
     animate() {
       requestAnimationFrame(this.animate);
       this.controls.update();
@@ -204,28 +186,18 @@ export default {
       const light = new THREE.AmbientLight(0xffffff);
       scene.add(light);
 
-      // const light2 = new THREE.DirectionalLight(0xffffff, 0.25);
-      // light2.position.set(0, 1, 1.5);
-      // this.scene.add(light2);
-
-      // const light3 = new THREE.DirectionalLight(0xffffff, 0.25);
-      // light3.position.set(0, 1, -1.5);
-      // this.scene.add(light3);
-
       const loader = new FBXLoader();
       const template = templates.find((temp) => temp.id === this.form.theme);
       loader.load(`img/fbx/${template.model}`, (object) => {
         object.traverse((child) => {
           if (child.isMesh) {
             child.geometry.attributes.uv2 = child.geometry.attributes.uv;
-            // child.material.emissiveMap.anisotropy = 16;
             if (child.material.map) {
               child.material.map.anisotropy = 16;
             }
 
             console.log(child.name);
 
-            // child.material.color = new THREE.Color('rgb(100%, 100%, 100%)');
             if (child.name === template.objectName) {
               child.material = new THREE.MeshPhongMaterial({
                 color: new THREE.Color('rgb(100%, 100%, 100%)'),
@@ -277,8 +249,6 @@ export default {
     this.animate();
   },
   destroyed() {
-    // this.renderer.forceContextLoss();
-    // this.renderer = null;
   },
 };
 </script>
@@ -324,8 +294,6 @@ canvas:focus {
 a {
   color: #43438d;
   font-weight: 500;
-  /* color: #009688; */
-  /* text-decoration: underline; */
   font-size: 0.95rem;
 }
 
@@ -335,7 +303,6 @@ a {
   top: 0;
   bottom: 0;
   width: 320px;
-  /* background-color: white; */
   background: linear-gradient(86deg, rgba(254, 253, 253, 1) 30%, rgb(250, 250, 250) 100%);
   overflow: hidden;
 }
@@ -355,7 +322,6 @@ a {
 .tabla-subtitulo {
   color: rgb(80, 80, 80);
   text-transform: uppercase;
-  /* letter-spacing: 1.5px; */
   font-size: 10px;
   font-weight: 500;
   line-height: 1.2;
@@ -388,7 +354,6 @@ h5 {
   color: #696969;
   margin-bottom: 0.3rem;
   margin-top: 0.4rem;
-  /* letter-spacing: 0.3px; */
 }
 
 h6 {
@@ -396,7 +361,6 @@ h6 {
   font-weight: 400;
   color: #7e7e7e;
   margin-bottom: 1.2rem;
-  /* letter-spacing: 0.3px; */
   line-height: 1.4;
 }
 
@@ -447,29 +411,21 @@ h6 {
   color: #43438d;
   border: 2px solid rgba(56, 56, 120, 0.082);
 
-  /* background-color: rgba(94, 218, 189, 0.336);
-  color: rgb(19, 126, 101);
-  border: 1px solid rgba(19, 126, 101, 0.192); */
   padding: 0.35rem;
   width: 100%;
   border-radius: 5px;
-  /* letter-spacing: 0.5px; */
 }
 
 .file-name {
   color: grey;
   font-size: 80%;
-  /* letter-spacing: 0.8px; */
   margin-top: 1rem;
 }
 
 .btn-primary {
   font-weight: 500;
-  /* letter-spacing: 0.4px; */
   background: rgb(61, 61, 102);
   background: linear-gradient(160deg, rgba(61, 61, 102, 1) 0%, rgba(47, 47, 83, 1) 100%);
-  /* background: rgb(94, 218, 189);
-  background: linear-gradient(166deg, rgb(70, 190, 162) 0%, rgb(43, 143, 118) 100%); */
   border-color: transparent;
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
@@ -486,7 +442,6 @@ label {
   text-transform: uppercase;
   font-size: 70%;
   font-weight: 400;
-  /* letter-spacing: 0.8px; */
   color: #606186;
 }
 

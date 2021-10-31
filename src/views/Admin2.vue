@@ -181,7 +181,6 @@ export default {
 
     rowDblClick(e, row) {
       const id = row.getIndex();
-      // this.$router.push({ name: 'view', params: { id } });
       const routeData = this.$router.resolve({ name: 'view', params: { id } });
       window.open(routeData.href, '_blank');
     },
@@ -317,9 +316,6 @@ body {
 }
 
 .date-2 {
-  /* background-color: rgba(218, 61, 147, 0);
-  border: 2px solid rgba(249, 252, 64, 0.473);
-  color: rgb(252, 224, 64); */
   background-color: rgba(218, 61, 147, 0);
   border: 2px solid rgba(252, 133, 64, 0.473);
   color: rgb(230, 121, 59);
