@@ -91,7 +91,7 @@ const messages = {
     selectTheme: 'Select a theme',
     theme: 'Theme',
     title: 'Bokksu - 3d package viewer',
-    adminTitle: 'Submission administrator',
+    adminTitle: 'Submission viewer',
     terms1: 'Each user maintains copyright over their uploaded files.',
     terms2: "Files are owned by each user, and can't be used in any way without explicit permission from the author.",
     uploadDate: 'Upload date',
