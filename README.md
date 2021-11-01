@@ -13,6 +13,6 @@ Used for academic purposes (during the pandemic, students uploaded their work an
 Technical details:
 - Static frontend developed with [Vue.js](https://vuejs.org/) + [Three.js](https://threejs.org/)
 - Hosted on [Cloudflare Pages](https://pages.cloudflare.com/)
-- Backend using [Clouflare Workers](https://workers.cloudflare.com/) and Workers KV for storing submissions (both JSON data and the actual files)
+- Backend using [Clouflare Workers](https://workers.cloudflare.com/) and [Cloudflare Workers KV](https://developers.cloudflare.com/workers/runtime-apis/kv) for storing submissions (both JSON data and the actual files)
 
 2020-2021 by [gzalo (Gonzalo Avila Alterach)](https://gzalo.com) - released under MIT License
