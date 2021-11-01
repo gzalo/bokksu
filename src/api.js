@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const apiURL = process.env.VUE_APP_BASE_API_PATH;
+const apiURL = process.env.VUE_APP_BASE_API_PATH || 'https://bokksu-backend.cgi-bin.workers.dev/';
 
 export default {
   getAll: () => axios.get(`${apiURL}submissions`),

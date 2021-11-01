@@ -16,30 +16,6 @@ import api from '../api';
 import templates from '../templates';
 import commissions from '../commissions';
 
-const commissionValues = { '': 'Todas' };
-for (let i = 0; i < commissions.length; i += 1) {
-  const name = commissions[i].id;
-  const id = commissions[i].name;
-  commissionValues[name] = id;
-}
-
-const themeValues = { '': 'Todos' };
-for (let i = 0; i < templates.length; i += 1) {
-  const name = templates[i].id;
-  const id = templates[i].name;
-  themeValues[name] = id;
-}
-
-const dateValues = {
-  '': 'Todos',
-  1: '1. Jueves 23',
-  2: '2. Jueves 30',
-  3: '3. Jueves 7',
-  4: '4. Preentrega',
-  5: '5. Entrega Final',
-  9: 'Otra clase',
-};
-
 const getClase = (date) => {
   if (date.isBefore('2021-09-24T03:00:00Z')) {
     return 1;
@@ -59,14 +35,17 @@ const getClase = (date) => {
   return 9;
 };
 
-// eslint-disable-next-line no-unused-vars
-const customDateTimeFormatter = (cell, formatterParams, onRendered) => {
-  const date = moment.utc(cell.getValue()).tz('America/Argentina/Buenos_Aires');
-
-  const title = date.format('DD/MM/YYYY HH:mm');
-  const clase = getClase(date);
-  return `<span class='date-common date-${clase}' title='${title}'>${dateValues[clase]}</span>`;
+const dateValues = {
+  '': 'Todos',
+  1: '1. Jueves 23',
+  2: '2. Jueves 30',
+  3: '3. Jueves 7',
+  4: '4. Preentrega',
+  5: '5. Entrega Final',
+  9: 'Otra clase',
 };
+
+// eslint-disable-next-line no-unused-vars
 
 // eslint-disable-next-line no-unused-vars
 const customDateFilter = (headerValue, rowValue, rowData, filterParams) => {
@@ -85,6 +64,22 @@ export default {
   data: function() {
     const submissionText = this.$t('submission');
     const submissionsText = this.$t('submissions');
+    const lang = this.$i18n.locale;
+
+    const commissionValues = { '': lang === 'es' ? 'Todas' : 'All' };
+    for (let i = 0; i < commissions.length; i += 1) {
+      const name = commissions[i].id;
+      const id = commissions[i].name;
+      commissionValues[name] = id;
+    }
+
+    const themeValues = { '': lang === 'es' ? 'Todos' : 'All' };
+    for (let i = 0; i < templates.length; i += 1) {
+      const name = templates[i].id;
+      const id = templates[i].name;
+      themeValues[name] = id;
+    }
+
     return {
       submissions: [],
       options: {
@@ -134,14 +129,21 @@ export default {
             headerFilterParams: themeValues,
             formatter(cell) {
               const tem = templates.find((template) => template.id.toString() === cell.getValue());
-              return this.$i18n.locale === 'es' ? tem.name : tem.nameEn;
+              return lang === 'es' ? tem.name : tem.nameEn;
             },
           },
           {
             title: this.$t('uploadDate'),
             field: 'date',
             sorter: 'datetime',
-            formatter: customDateTimeFormatter,
+            // eslint-disable-next-line no-unused-vars
+            formatter: (cell, formatterParams, onRendered) => {
+              const date = moment.utc(cell.getValue()).tz('America/Argentina/Buenos_Aires');
+
+              const title = date.format('DD/MM/YYYY HH:mm');
+              const clase = getClase(date);
+              return `<span class='date-common date-${clase}' title='${title}'>${lang === 'en' ? 'Other class' : dateValues[clase]}</span>`;
+            },
             sorterParams: { format: 'YYYY-MM-DD[T]HH:mm:ss.SSS[Z]Z' },
             headerFilter: 'select',
             headerFilterParams: dateValues,
