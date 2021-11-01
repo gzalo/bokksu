@@ -63,7 +63,7 @@
 
             <div>
               <span class="oldviewer"
-                ><a href="/admin">{{ $t('viewer') }}</a></span
+                ><a href="/admin">{{ $t('viewer') }}</a> | <a href="https://github.com/gzalo/bokksu" target="_blank">{{ $t('sourceCode') }}</a></span
               >
             </div>
           </div>
@@ -509,6 +509,7 @@ label {
   padding: 1.1rem;
 }
 
+.oldviewer,
 .oldviewer a {
   font-size: 0.75rem;
   font-weight: light;

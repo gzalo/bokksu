@@ -58,6 +58,7 @@ const messages = {
     allThemes: 'Todos',
     submission: 'entrega',
     submissions: 'entregas',
+    sourceCode: 'Código fuente',
   },
   en: {
     downloadTemplate: 'Download the template of your theme',
@@ -76,7 +77,7 @@ const messages = {
     correctlyUploaded: 'Your work was uploaded successfully',
     viewLink: 'You can view it here',
     olderTerms: 'Previous quarters',
-    viewer: 'Bokksu - 3d package viewer',
+    viewer: 'View submissions',
     multipleViewer: 'Multi-viewer',
     commission: 'Class',
     leftClick: 'Left click',
@@ -89,7 +90,7 @@ const messages = {
     weightLessThanError: 'File size must be less than 8 MB.',
     selectTheme: 'Select a theme',
     theme: 'Theme',
-    title: 'Packaging project',
+    title: 'Bokksu - 3d package viewer',
     adminTitle: 'Submission administrator',
     terms1: 'Each user maintains copyright over their uploaded files.',
     terms2: "Files are owned by each user, and can't be used in any way without explicit permission from the author.",
@@ -100,6 +101,7 @@ const messages = {
     allThemes: 'All',
     submission: 'submission',
     submissions: 'submissions',
+    sourceCode: 'Source code',
   },
 };
 
