@@ -21,7 +21,7 @@ export default [
     objectName: 'Galletitas_1',
     planeName: 'PlaneGalletitas_1',
     separation: 3,
-    cameraData: [0, 1, 0, 1.773 * 2, 1.2 * 2, 1.99 * 2],
+    cameraData: [0, 0.4, 0, 1.773 * 1.5, 1.2 * 2, 1.99 * 2],
   },
   {
     id: 3,
