@@ -1,7 +1,7 @@
 <template>
   <div class="fondo mb-5">
     <div class="container">
-      <a href="/"><img class="logo-catedra my-4" src="/img/logo.svg" alt=""/></a>
+      <a href="/"><img class="logo-catedra my-4" src="/img/logo-belluccia.png" alt=""/></a>
       <h2>{{ $t('adminTitle') }}</h2>
       <p id="contador" class="light-text"></p>
       <VueTabulator v-model="submissions" :options="options" @row-click="rowClick" />
