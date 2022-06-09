@@ -47,7 +47,7 @@ const messages = {
     weightLessThanError: 'Tu archivo debe pesar menos de 8 MB.',
     selectTheme: 'Elegí el tema',
     theme: 'Tema',
-    title: 'Nivel 3 · Envase · Cátedra Belluccia',
+    title: 'Nivel 1 · Envase · Cátedra Belluccia',
     adminTitle: 'Administración de entregas',
     terms1: 'Cada usuario mantiene los derechos de autor de cada archivo subido. ',
     terms2: 'Los mismos son propiedad de cada usuario, y no podrán ser utilizados de ninguna forma excepto teniendo un permiso explícito del autor.',

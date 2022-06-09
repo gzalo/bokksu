@@ -118,7 +118,8 @@ export default {
             headerFilter: 'select',
             headerFilterParams: commissionValues,
             formatter(cell) {
-              return commissions.find((commission) => commission.id.toString() === cell.getValue()).name;
+              const comm = commissions.find((commission) => commission.id.toString() === cell.getValue());
+              return comm ? comm.name : 'Otra';
             },
           },
           {
@@ -129,6 +130,7 @@ export default {
             headerFilterParams: themeValues,
             formatter(cell) {
               const tem = templates.find((template) => template.id.toString() === cell.getValue());
+              if (!tem) return 'Otro';
               return lang === 'es' ? tem.name : tem.nameEn;
             },
           },
