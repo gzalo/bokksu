@@ -61,11 +61,6 @@
               <router-link :to="{ name: 'view', params: { id: linkId } }">{{ $t('viewLink') }}</router-link>
             </div>
 
-            <div>
-              <span class="oldviewer"
-                ><a href="/admin">{{ $t('viewer') }}</a> | <a href="https://github.com/gzalo/bokksu" target="_blank">{{ $t('sourceCode') }}</a></span
-              >
-            </div>
           </div>
         </div>
       </div>
