@@ -6,10 +6,6 @@
           <div>
             <div class="d-flex justify-content-between">
               <a href="/"><img class="logo-catedra" src="/img/logo-belluccia.png" alt=""/></a>
-              <span>
-                <a href="#" @click.prevent="changeEn" :class="{ langActive: $i18n.locale == 'en' }">EN</a> |
-                <a href="#" @click.prevent="changeEs" :class="{ langActive: $i18n.locale == 'es' }">ES</a>
-              </span>
             </div>
             <form class="mt-5" v-if="!linkId">
               <h4 class="estilo-label">{{ $t('downloadTemplate') }}</h4>
