@@ -1,10 +1,10 @@
 export default [
   {
     id: 1,
-    name: 'Susana y Leonel',
+    name: 'Susana, Romina, Edwin',
   },
   {
     id: 2,
-    name: 'Natalia y Romina',
+    name: 'Leonel, Natalia',
   },
 ];
