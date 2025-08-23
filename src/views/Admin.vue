@@ -17,35 +17,27 @@ import templates from '../templates';
 import commissions from '../commissions';
 
 const getClase = (date) => {
-  if (date.isBefore('2024-08-30T03:00:00Z')) {
+  if (date.isBefore('2025-09-12T03:00:00Z')) {
     return 1;
   }
-  if (date.isBefore('2024-09-06T03:00:00Z')) {
+  if (date.isBefore('2025-09-19T03:00:00Z')) {
     return 2;
   }
-  if (date.isBefore('2024-09-13T03:00:00Z')) {
+  if (date.isBefore('2025-09-26T03:00:00Z')) {
     return 3;
   }
-  if (date.isBefore('2024-09-20T03:00:00Z')) {
+  if (date.isBefore('2025-10-03T03:00:00Z')) {
     return 4;
-  }
-  if (date.isBefore('2024-09-27T03:00:00Z')) {
-    return 5;
-  }
-  if (date.isBefore('2024-10-04T03:00:00Z')) {
-    return 6;
   }
   return 9;
 };
 
 const dateValues = {
   '': 'Todos',
-  1: 'Clase 29/8',
-  2: 'Clase 5/9',
-  3: 'Clase 12/9',
-  4: 'Clase 19/9',
-  5: 'Clase 26/9',
-  6: 'Clase 3/9',
+  1: 'Clase',
+  2: 'Preentrega 18/9',
+  3: 'Última corrección 25/9',
+  4: 'Entrega 2/10',
   9: 'Otra clase',
 };
 
