@@ -17,27 +17,19 @@ import templates from '../templates';
 import commissions from '../commissions';
 
 const getClase = (date) => {
-  if (date.isBefore('2025-09-12T03:00:00Z')) {
+  if (date.isBefore('2026-10-16T03:00:00Z')) {
     return 1;
   }
-  if (date.isBefore('2025-09-19T03:00:00Z')) {
+  if (date.isBefore('2026-10-30T03:00:00Z')) {
     return 2;
-  }
-  if (date.isBefore('2025-09-26T03:00:00Z')) {
-    return 3;
-  }
-  if (date.isBefore('2025-10-03T03:00:00Z')) {
-    return 4;
   }
   return 9;
 };
 
 const dateValues = {
   '': 'Todos',
-  1: 'Clase',
-  2: 'Preentrega 18/9',
-  3: 'Última corrección 25/9',
-  4: 'Entrega 2/10',
+  2: 'Preentrega 15/10',
+  4: 'Entrega 29/10',
   9: 'Otra clase',
 };
 
