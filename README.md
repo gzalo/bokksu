@@ -15,4 +15,17 @@ Technical details:
 - Hosted on [Cloudflare Pages](https://pages.cloudflare.com/)
 - Backend using [Clouflare Workers](https://workers.cloudflare.com/) and [Cloudflare Workers KV](https://developers.cloudflare.com/workers/runtime-apis/kv) for storing submissions (both JSON data and the actual files)
 
+## Build
+
+Use Node.js 22.16.0 or newer. The frontend and worker have separate dependencies and lockfiles:
+
+```sh
+npm ci
+npm run build
+
+cd backend
+npm ci
+npm run build
+```
+
 2020-2021 by [gzalo (Gonzalo Avila Alterach)](https://gzalo.com) - released under MIT License
