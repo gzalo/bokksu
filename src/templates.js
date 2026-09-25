@@ -14,8 +14,8 @@ export default [
   {
     id: 2,
     model: '02-tostitos.fbx',
-    name: 'Tostitos',
-    nameEn: 'Tostitos',
+    name: '2. Tostitos',
+    nameEn: '2. Tostitos',
     template: '02-tostitos.png',
     download: '02-tostitos.png',
     objectName: '01_obj_pan_1',
@@ -26,8 +26,8 @@ export default [
   {
     id: 3,
     model: '03-fideos.fbx',
-    name: 'Fideos',
-    nameEn: 'Fideos',
+    name: '3. Fideos',
+    nameEn: '3. Fideos',
     template: '03-fideos.png',
     download: '03-fideos.png',
     objectName: '01_obj_fideos',

@@ -1,18 +1,18 @@
 export default [
   {
     id: 1,
-    name: '1. Susana',
+    name: 'Susana',
   },
   {
     id: 2,
-    name: '2. Natalia',
+    name: 'Natalia',
   },
   {
     id: 3,
-    name: '3. Romina',
+    name: 'Romina',
   },
   {
     id: 4,
-    name: '4. Leonel',
+    name: 'Leonel',
   },
 ];
