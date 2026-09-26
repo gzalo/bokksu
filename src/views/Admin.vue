@@ -28,8 +28,8 @@ const getClase = (date) => {
 
 const dateValues = {
   '': 'Todos',
-  2: 'Preentrega 15/10',
-  4: 'Entrega 29/10',
+  1: 'Preentrega 15/10',
+  2: 'Entrega 29/10',
   9: 'Otra clase',
 };
 
